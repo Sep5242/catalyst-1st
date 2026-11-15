@@ -1,0 +1,33 @@
+name: Catalyst 1st SEC Scanner
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 13 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare data folder
+        run: mkdir -p data
+      - name: Scan SEC filings
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python scan_sec.py
+      - name: Save scan results
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/sec-catalysts.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update SEC catalyst scan'
+            git push
+          fi
