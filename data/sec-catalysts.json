@@ -1,0 +1,548 @@
+{
+  "generated_at": "2026-11-16T17:41:02.390511+00:00",
+  "source": "SEC EDGAR public submissions API",
+  "scope": "Selected watchlist tickers; recent filings only, not all-market discovery",
+  "filings": [
+    {
+      "ticker": "ONDS",
+      "company": "Ondas Inc.",
+      "form": "10-Q",
+      "filed": "2026-11-12",
+      "accession": "0001193125-26-458517",
+      "url": "https://www.sec.gov/Archives/edgar/data/1646188/000119312526458517/onds-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "ONDS",
+      "company": "Ondas Inc.",
+      "form": "8-K",
+      "filed": "2026-11-12",
+      "accession": "0001193125-26-457088",
+      "url": "https://www.sec.gov/Archives/edgar/data/1646188/000119312526457088/onds-20261112.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "8-K",
+      "filed": "2026-11-10",
+      "accession": "0001493152-26-050865",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000149315226050865/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "10-Q",
+      "filed": "2026-11-09",
+      "accession": "0001628280-26-072198",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026072198/oxy-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "8-K",
+      "filed": "2026-11-09",
+      "accession": "0001628280-26-072193",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026072193/oxy-20261109.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "UNH",
+      "company": "UNITEDHEALTH GROUP INC",
+      "form": "8-K",
+      "filed": "2026-11-09",
+      "accession": "0000731766-26-000274",
+      "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000274/unh-20261103.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "10-Q",
+      "filed": "2026-11-09",
+      "accession": "0001193125-26-453759",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000119312526453759/asts-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "8-K",
+      "filed": "2026-11-09",
+      "accession": "0001193125-26-453758",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000119312526453758/asts-20261109.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DVN",
+      "company": "DEVON ENERGY CORP/DE",
+      "form": "10-Q",
+      "filed": "2026-11-06",
+      "accession": "0001193125-26-451216",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526451216/dvn-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "8-K",
+      "filed": "2026-11-06",
+      "accession": "0001493152-26-050513",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000149315226050513/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DVN",
+      "company": "DEVON ENERGY CORP/DE",
+      "form": "8-K",
+      "filed": "2026-11-05",
+      "accession": "0001193125-26-449884",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526449884/d120646d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "C",
+      "company": "CITIGROUP INC",
+      "form": "10-Q",
+      "filed": "2026-11-05",
+      "accession": "0000831001-26-000056",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000083100126000056/c-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "RDW",
+      "company": "Redwire Corp",
+      "form": "10-Q",
+      "filed": "2026-11-05",
+      "accession": "0001819810-26-000142",
+      "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000142/rdw-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "SMR",
+      "company": "NUSCALE POWER Corp",
+      "form": "10-Q",
+      "filed": "2026-11-05",
+      "accession": "0001822966-26-000091",
+      "url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000091/smr-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "SMR",
+      "company": "NUSCALE POWER Corp",
+      "form": "8-K",
+      "filed": "2026-11-05",
+      "accession": "0001822966-26-000089",
+      "url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000089/smr-20261105.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "ORACLE CORP",
+      "form": "8-K",
+      "filed": "2026-11-04",
+      "accession": "0001193125-26-447507",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526447507/d131790d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "RDW",
+      "company": "Redwire Corp",
+      "form": "8-K",
+      "filed": "2026-11-04",
+      "accession": "0001819810-26-000139",
+      "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000139/rdw-20261104.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "UNH",
+      "company": "UNITEDHEALTH GROUP INC",
+      "form": "10-Q",
+      "filed": "2026-11-03",
+      "accession": "0000731766-26-000266",
+      "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000266/unh-20260930.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "INTC",
+      "company": "INTEL CORP",
+      "form": "10-Q",
+      "filed": "2026-10-30",
+      "accession": "0000050863-26-000191",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000191/intc-20260926.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "INTC",
+      "company": "INTEL CORP",
+      "form": "8-K",
+      "filed": "2026-10-29",
+      "accession": "0000050863-26-000188",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000188/intc-20261029.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "ORACLE CORP",
+      "form": "8-K",
+      "filed": "2026-10-28",
+      "accession": "0001193125-26-435853",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526435853/d75538d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "C",
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-10-26",
+      "accession": "0001193125-26-431962",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526431962/d179323d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "C",
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-10-22",
+      "accession": "0001104659-26-118193",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000110465926118193/c-20261021x8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DELL",
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-10-21",
+      "accession": "0001193125-26-427920",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000119312526427920/d163575d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "8-K",
+      "filed": "2026-10-20",
+      "accession": "0001493152-26-047766",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000149315226047766/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "8-K",
+      "filed": "2026-10-13",
+      "accession": "0001628280-26-065586",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026065586/oxy-20261013.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "C",
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-10-13",
+      "accession": "0001104659-26-115323",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000110465926115323/c-20261013x8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "UNH",
+      "company": "UNITEDHEALTH GROUP INC",
+      "form": "8-K",
+      "filed": "2026-10-13",
+      "accession": "0000731766-26-000255",
+      "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000255/unh-20261013.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ONDS",
+      "company": "Ondas Inc.",
+      "form": "8-K",
+      "filed": "2026-10-13",
+      "accession": "0001213900-26-108757",
+      "url": "https://www.sec.gov/Archives/edgar/data/1646188/000121390026108757/ea0308390-8k_ondas.htm",
+      "description": "CURRENT REPORT"
+    },
+    {
+      "ticker": "DVN",
+      "company": "DEVON ENERGY CORP/DE",
+      "form": "8-K",
+      "filed": "2026-10-08",
+      "accession": "0001193125-26-417944",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526417944/d141547d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "NNE",
+      "company": "Nano Nuclear Energy Inc.",
+      "form": "8-K",
+      "filed": "2026-10-02",
+      "accession": "0001493152-26-045534",
+      "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226045534/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "C",
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-09-24",
+      "accession": "0001193125-26-401022",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526401022/d155919d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ONDS",
+      "company": "Ondas Inc.",
+      "form": "8-K",
+      "filed": "2026-09-23",
+      "accession": "0001213900-26-102458",
+      "url": "https://www.sec.gov/Archives/edgar/data/1646188/000121390026102458/ea0306273-8k_ondas.htm",
+      "description": "CURRENT REPORT"
+    },
+    {
+      "ticker": "NNE",
+      "company": "Nano Nuclear Energy Inc.",
+      "form": "8-K",
+      "filed": "2026-09-17",
+      "accession": "0001493152-26-043128",
+      "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226043128/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DELL",
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-09-15",
+      "accession": "0001193125-26-391976",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000119312526391976/d172674d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "ORACLE CORP",
+      "form": "8-K",
+      "filed": "2026-09-14",
+      "accession": "0001193125-26-389753",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389753/d20034d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "ONDS",
+      "company": "Ondas Inc.",
+      "form": "8-K",
+      "filed": "2026-09-14",
+      "accession": "0001213900-26-099531",
+      "url": "https://www.sec.gov/Archives/edgar/data/1646188/000121390026099531/ea0304980-8k_ondas.htm",
+      "description": "CURRENT REPORT"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "ORACLE CORP",
+      "form": "10-Q",
+      "filed": "2026-09-11",
+      "accession": "0001193125-26-389274",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "ORACLE CORP",
+      "form": "8-K",
+      "filed": "2026-09-10",
+      "accession": "0001193125-26-387905",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-20260910.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DELL",
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-09-10",
+      "accession": "0001193125-26-387958",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000119312526387958/d150030d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "UNH",
+      "company": "UNITEDHEALTH GROUP INC",
+      "form": "8-K",
+      "filed": "2026-09-08",
+      "accession": "0000731766-26-000205",
+      "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000205/unh-20260908.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DELL",
+      "company": "Dell Technologies Inc.",
+      "form": "10-Q",
+      "filed": "2026-09-08",
+      "accession": "0001571996-26-000046",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000046/dell-20260731.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "DELL",
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-09-01",
+      "accession": "0001571996-26-000039",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000039/dell-20260901.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DVN",
+      "company": "DEVON ENERGY CORP/DE",
+      "form": "8-K",
+      "filed": "2026-08-27",
+      "accession": "0001193125-26-371317",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526371317/d153860d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "DVN",
+      "company": "DEVON ENERGY CORP/DE",
+      "form": "8-K",
+      "filed": "2026-08-20",
+      "accession": "0001193125-26-359267",
+      "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526359267/d146895d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "NNE",
+      "company": "Nano Nuclear Energy Inc.",
+      "form": "8-K",
+      "filed": "2026-08-13",
+      "accession": "0001493152-26-037746",
+      "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226037746/form8-k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "INTC",
+      "company": "INTEL CORP",
+      "form": "8-K",
+      "filed": "2026-08-12",
+      "accession": "0001193125-26-346806",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000119312526346806/d117670d8k.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "NNE",
+      "company": "Nano Nuclear Energy Inc.",
+      "form": "10-Q",
+      "filed": "2026-08-12",
+      "accession": "0001493152-26-037345",
+      "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226037345/form10-q.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "SMR",
+      "company": "NUSCALE POWER Corp",
+      "form": "8-K",
+      "filed": "2026-08-11",
+      "accession": "0001104659-26-094073",
+      "url": "https://www.sec.gov/Archives/edgar/data/1822966/000110465926094073/tm2622138d2_8k.htm",
+      "description": "FORM 8-K"
+    },
+    {
+      "ticker": "UNH",
+      "company": "UNITEDHEALTH GROUP INC",
+      "form": "10-Q",
+      "filed": "2026-08-10",
+      "accession": "0000731766-26-000197",
+      "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000197/unh-20260630.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "RDW",
+      "company": "Redwire Corp",
+      "form": "10-Q",
+      "filed": "2026-08-06",
+      "accession": "0001819810-26-000124",
+      "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000124/rdw-20260630.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "10-Q",
+      "filed": "2026-08-05",
+      "accession": "0001628280-26-053388",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "8-K",
+      "filed": "2026-08-05",
+      "accession": "0001628280-26-053377",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053377/oxy-20260805.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "RDW",
+      "company": "Redwire Corp",
+      "form": "8-K",
+      "filed": "2026-08-05",
+      "accession": "0001819810-26-000121",
+      "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000121/rdw-20260805.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "SMR",
+      "company": "NUSCALE POWER Corp",
+      "form": "8-K",
+      "filed": "2026-08-05",
+      "accession": "0001822966-26-000086",
+      "url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000086/smr-20260805.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "SMR",
+      "company": "NUSCALE POWER Corp",
+      "form": "10-Q",
+      "filed": "2026-08-05",
+      "accession": "0001822966-26-000085",
+      "url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000085/smr-20260630.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "INTC",
+      "company": "INTEL CORP",
+      "form": "10-Q",
+      "filed": "2026-07-24",
+      "accession": "0000050863-26-000157",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000157/intc-20260627.htm",
+      "description": "10-Q"
+    },
+    {
+      "ticker": "INTC",
+      "company": "INTEL CORP",
+      "form": "8-K",
+      "filed": "2026-07-23",
+      "accession": "0000050863-26-000155",
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/intc-20260723.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "RDW",
+      "company": "Redwire Corp",
+      "form": "8-K",
+      "filed": "2026-07-14",
+      "accession": "0001819810-26-000104",
+      "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000104/rdw-20260710.htm",
+      "description": "8-K"
+    },
+    {
+      "ticker": "NNE",
+      "company": "Nano Nuclear Energy Inc.",
+      "form": "8-K",
+      "filed": "2026-06-25",
+      "accession": "0001493152-26-030124",
+      "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226030124/form8-k.htm",
+      "description": "8-K"
+    }
+  ],
+  "errors": []
+}
