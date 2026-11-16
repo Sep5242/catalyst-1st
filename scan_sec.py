@@ -2,7 +2,8 @@ import json, os, time, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parent
+(ROOT / 'data').mkdir(parents=True, exist_ok=True)
 TICKERS = ['DVN','OXY','ORCL','C','UNH','DELL','INTC','ASTS','RDW','SMR','NNE','ONDS']
 FORMS = {'8-K','10-Q','10-K','6-K','20-F'}
 UA = os.environ.get('SEC_USER_AGENT','')
