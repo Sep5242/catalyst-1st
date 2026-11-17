@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T20:03:45.010062+00:00",
+  "generated_at": "2026-11-17T20:50:11.911520+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -17,7 +17,11 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 2,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "\u00a0 \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 ( 878 ) \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 ( 878 ) issuance of shares of pre-funded warrants from 2025 public offering, net of costs \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 \u00a0 27,200,000 \u00a0 \u00a0 \u00a0 3 \u00a0 \u00a0 \u00a0 42,674 \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 42,677 \u00a0 issuance of ",
+            "s \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 1,159 \u00a0 \u00a0 \u00a0 1,159 \u00a0 issuance of shares from august 2025 public offering, net of costs \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 \u00a0 53,084,000 \u00a0 \u00a0 \u00a0 5 \u00a0 \u00a0 \u00a0 162,631 \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 - \u00a0 \u00a0 \u00a0 162,636 \u00a0 issuance o"
+          ]
         }
       ],
       "score": -3,
@@ -63,7 +67,11 @@
           "category": "Positive",
           "phrase": "share repurchase",
           "mentions": 2,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            "part i, item 1a of the 2025 form 10-k. item 2. unregistered sales of equity securities and use of proceeds occidental's share repurchase activities for the nine months ended september 30, 2026 were as follows: period total number of shares purchased (a) av",
+            " are not part of publicly announced plans or programs. (b)\u00a0\u00a0\u00a0\u00a0 represents the value of shares remaining in occidental's share repurchase plan. in february 2023, occidental announced an authorization to repurchase up to $3.0 billion of occidental's shares o"
+          ]
         }
       ],
       "score": 2,
@@ -174,7 +182,10 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "e incurred and recognized, which are wholly and necessarily a consequence of actions taken to sell (including through a public offering), dispose of or wind down business activities associated with citi\u2019s previously announced exit markets within all other"
+          ]
         }
       ],
       "score": -3,
@@ -207,7 +218,10 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "accounting principles in the united states. \u2022 \u201cg&a\u201d refers to general and administrative. \u2022 \u201cipo\u201d refers to the initial public offering of spring valley, which closed on november 27, 2020. \u2022 \u201clegacy nuscale equityholders\u201d refers to the holders of nuscale "
+          ]
         }
       ],
       "score": -3,
@@ -266,7 +280,12 @@
           "category": "Positive",
           "phrase": "share repurchase",
           "mentions": 10,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            " total amount paid (in millions) march 17 $ 2.21 \u00a0 $ 2,005 \u00a0 june 23 2.32 \u00a0 2,087 \u00a0 september 22 2.32 \u00a0 2,078 \u00a0 forward share repurchase contracts during the nine months ended september 30, 2026, the company entered into forward contracts with a counterpar",
+            "ndistributed earnings attributable to the shares held by the counterparty for the nine months ended september 30, 2026. share repurchase program in november 2026, the company\u2019s board of directors amended the company\u2019s share repurchase program to authorize ",
+            "d september 30, 2026. share repurchase program in november 2026, the company\u2019s board of directors amended the company\u2019s share repurchase program to authorize the repurchase of up to 50 million shares of common stock, in addition to all remaining shares aut"
+          ]
         }
       ],
       "score": 2,
@@ -286,19 +305,32 @@
           "category": "Positive",
           "phrase": "share repurchase",
           "mentions": 1,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            "tion to our remaining mobileye class b shares. as we continue to consolidate the results of mobileye, the impact of the share repurchase was eliminated in our consolidated condensed balance sheets. note 4 : earnings (loss) per share and stockholders' equit"
+          ]
         },
         {
           "category": "Positive",
           "phrase": "revenue increased",
           "mentions": 10,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            "premium products sold in q3 2026. other ccpg revenue was $1.2 billion in q3 2026, down $14 million from q3 2025. \u25aa dcai revenue increased $3.2 billion from q3 2025, driven by higher server revenue, which increased $2.5 billion in q3 2026 due to asp increase",
+            "ytd 2026 vs. ytd 2025 total intel products revenue was $43.3 billion in ytd 2026, up $7.1 billion from ytd 2025. \u25aa ccpg revenue increased $666 million from ytd 2025. client revenue (collectively notebook and desktop) was $21.3 billion in ytd 2026, up $763 m",
+            "he impact of these constraints. other ccpg revenue was $3.4 billion in ytd 2026, down $97 million from ytd 2025. \u25aa dcai revenue increased $6.5 billion from ytd 2025, driven by higher server revenue, which increased $5.2 billion in ytd 2026 due to a 44% incr"
+          ]
         },
         {
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 5,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            " 777 \u00a0 net proceeds attributed to common stock and warrants issued, and escrowed shares 440 \u00a0 7,682 \u00a0 net proceeds from public offering of common stock 22,617 \u00a0 \u2014 \u00a0 restricted stock unit withholdings ( 907 ) ( 286 ) other financing ( 146 ) ( 504 ) net cas",
+            "lutive were insignificant. sales of common stock common stock issuance on august\u00a012, 2026, we completed an underwritten public offering of approximately 211 million shares of our common stock at a price of $ 95.00 per share. in connection with this offeri",
+            "lts. common stock issuance on august\u00a012, 2026, we issued approximately 242 million shares of our common stock through a public offering. we intend to use the net proceeds of $22.6 billion for general corporate purposes, including capital expenditures and "
+          ]
         }
       ],
       "score": 1,
@@ -487,7 +519,10 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "ities act of 1933, as amended, in accordance with regulation d thereunder, as transactions by an issuer not involving a public offering, and regulation s, as sales to non-u.s. investors outside of the united states. \u00a0 item 8.01 other events. \u00a0 on septembe"
+          ]
         }
       ],
       "score": -3,
@@ -520,7 +555,10 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "technologies inc. (the \u201ccompany\u201d), dell international l.l.c. and emc corporation (together, the \u201cissuers\u201d), completed a public offering (the \u201coffering\u201d) of (i) $1,250,000,000 aggregate principal amount of 5.100% senior notes due 2029 (the \u201c2029 notes\u201d), ("
+          ]
         }
       ],
       "score": -3,
@@ -592,7 +630,12 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 4,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            ", in accordance with the terms and conditions set forth in the underwriting agreement. the 2029 notes will be sold at a public offering price of 99.953% of the aggregate principal amount thereof, the 2031 notes will be sold at a public offering price of 9",
+            " sold at a public offering price of 99.953% of the aggregate principal amount thereof, the 2031 notes will be sold at a public offering price of 99.836% of the aggregate principal amount thereof, the 2033 notes will be sold at a public offering price of 9",
+            " sold at a public offering price of 99.836% of the aggregate principal amount thereof, the 2033 notes will be sold at a public offering price of 99.475% of the aggregate principal amount thereof and the 2037 notes will be sold at a public offering price o"
+          ]
         }
       ],
       "score": -3,
@@ -703,25 +746,41 @@
           "category": "Negative",
           "phrase": "going concern",
           "mentions": 6,
-          "points": -5
+          "points": -5,
+          "excerpts": [
+            " par value per share. \u00a0 liquidity \u00a0 these unaudited condensed consolidated financial statements have been prepared on a going concern basis, which assumes the realization of assets and settlement of liabilities in the normal course of business. at june ",
+            "of $ 40,067,076 , and negative cash flows from operations of $ 19,621,963 . the ability of the company to continue as a going concern is dependent on the company\u2019s ability to secure financing from capital markets or other sources, including investors, l",
+            "ext twelve months after the date the unaudited condensed consolidated financial statements are issued to conform to the going concern uncertainty period. during the nine months ended june 30, 2026, the company received approximately $ 2.5 million from e"
+          ]
         },
         {
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 7,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "ds presented. holders of common stock are entitled to one vote per share. \u00a0 issuance of common stock for cash \u00a0 initial public offering \u00a0 on may 7, 2024, the company consummated a firm commitment underwritten initial public offering (the \u201cipo offering\u201d) o",
+            "ock for cash \u00a0 initial public offering \u00a0 on may 7, 2024, the company consummated a firm commitment underwritten initial public offering (the \u201cipo offering\u201d) of an aggregate of 2,562,500 shares of common stock at a price of $ 4.00 per share (the \u201cipo offer",
+            "osts of $ 1,538,405 to additional paid-in capital during the year ended september 30, 2024. \u00a0 july 2024 firm commitment public offering \u00a0 on july 15, 2024, the company consummated a firm commitment underwritten follow-on public offering (the \u201cjuly 2024 fo"
+          ]
         },
         {
           "category": "Negative",
           "phrase": "at-the-market offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "roceeds received by the company in the private placement, and reimbursement of $ 150,000 in legal expenses. \u00a0 july 2025 at-the-market offering \u00a0 on july 25, 2025, the company entered into a sales agreement (\u201c2025 atm agreement\u201d) with td securities (usa) llc, ubs"
+          ]
         },
         {
           "category": "Negative",
           "phrase": "substantial doubt",
           "mentions": 1,
-          "points": -5
+          "points": -5,
+          "excerpts": [
+            "dited condensed consolidated financial statements, we evaluated whether there were any conditions and events that raise substantial doubt about our ability to continue as a going concern over the twelve months after the date the unaudited condensed consolid"
+          ]
         }
       ],
       "score": -16,
@@ -741,7 +800,10 @@
           "category": "Negative",
           "phrase": "at-the-market offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            " as texas capital securities (\u201ctcs\u201d) and tuohy brothers investment research, inc. (\u201ctuohy brothers\u201d) with respect to an at-the-market offering program under which the company may offer and sell, from time to time at its sole discretion, shares of its class a com"
+          ]
         }
       ],
       "score": -3,
@@ -761,7 +823,12 @@
           "category": "Positive",
           "phrase": "share repurchase",
           "mentions": 10,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            "ayment date amount per share total amount paid (in millions) march 17 $ 2.21 \u00a0 $ 2,005 \u00a0 june 23 2.32 \u00a0 2,087 \u00a0 forward share repurchase contracts during the six months ended june 30, 2026, the company entered into forward contracts with a counterparty to ",
+            "s. these agreements do not qualify for reinsurance accounting and are therefore accounted for under deposit accounting. share repurchase program. during the six months ended june\u00a030, 2026, we repurchased approximately 10.5 million shares at an average pric",
+            "ng 6.4 million shares purchased and held by a counterparty at an average price of $312.73 per share pursuant to forward share repurchase contracts that were settled on july 1, 2026. see note 6 of notes to the condensed consolidated financial statements inc"
+          ]
         }
       ],
       "score": 2,
@@ -794,7 +861,11 @@
           "category": "Positive",
           "phrase": "share repurchase",
           "mentions": 2,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            "part i, item 1a of the 2025 form 10-k. item 2. unregistered sales of equity securities and use of proceeds occidental's share repurchase activities for the six months ended june 30, 2026 were as follows: period total number of shares purchased (a) average ",
+            " are not part of publicly announced plans or programs. (b)\u00a0\u00a0\u00a0\u00a0 represents the value of shares remaining in occidental's share repurchase plan. in february 2023, occidental announced an authorization to repurchase up to $3.0 billion of occidental's shares o"
+          ]
         }
       ],
       "score": 2,
@@ -853,7 +924,10 @@
           "category": "Negative",
           "phrase": "public offering",
           "mentions": 1,
-          "points": -3
+          "points": -3,
+          "excerpts": [
+            "accounting principles in the united states. \u2022 \u201cg&a\u201d refers to general and administrative. \u2022 \u201cipo\u201d refers to the initial public offering of spring valley, which closed on november 27, 2020. \u2022 \u201clegacy nuscale equityholders\u201d refers to the holders of nuscale "
+          ]
         }
       ],
       "score": -3,
@@ -873,7 +947,12 @@
           "category": "Positive",
           "phrase": "revenue increased",
           "mentions": 6,
-          "points": 2
+          "points": 2,
+          "excerpts": [
+            " billion in q2 2026, up $3.3 billion from q2 2025, and $27.9 billion in ytd 2026, up $4.4 billion from ytd 2025. \u25aa ccpg revenue increased $1.0 billion from q2 2025 and $1.1 billion from ytd 2025. client revenue (collectively notebook and desktop) was $7.7 b",
+            "illion in q2 2026, down $127 million from q2 2025, and $2.3 billion in ytd 2026, down $82 million from ytd 2025. \u25aa dcai revenue increased $2.3 billion from q2 2025 and $3.2 billion from ytd 2025, primarily driven by higher server revenue, which increased $2",
+            "7 billion in ytd 2026, up $4.2 billion from ytd 2025, primarily driven by higher intel products revenue. intel products revenue increased 28% from q2 2025 and 18% from ytd 2025, driven by higher dcai and ccpg revenue. dcai revenue increased 59% from q2 2025"
+          ]
         }
       ],
       "score": 2,
