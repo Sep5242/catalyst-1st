@@ -1,8 +1,21 @@
 {
-  "generated_at": "2026-11-17T20:50:11.911520+00:00",
+  "generated_at": "2026-11-17T22:05:21.611368+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
+    {
+      "ticker": "ASTS",
+      "company": "AST SpaceMobile, Inc.",
+      "form": "8-K",
+      "filed": "2026-11-17",
+      "accession": "0001493152-26-052865",
+      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000149315226052865/form8-k.htm",
+      "description": "8-K",
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
     {
       "ticker": "ONDS",
       "company": "Ondas Inc.",
@@ -395,19 +408,6 @@
       "filed": "2026-10-21",
       "accession": "0001193125-26-427920",
       "url": "https://www.sec.gov/Archives/edgar/data/1571996/000119312526427920/d163575d8k.htm",
-      "description": "8-K",
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "classification": "No rule-based signal"
-    },
-    {
-      "ticker": "ASTS",
-      "company": "AST SpaceMobile, Inc.",
-      "form": "8-K",
-      "filed": "2026-10-20",
-      "accession": "0001493152-26-047766",
-      "url": "https://www.sec.gov/Archives/edgar/data/1780312/000149315226047766/form8-k.htm",
       "description": "8-K",
       "status": "Analyzed",
       "signals": [],
