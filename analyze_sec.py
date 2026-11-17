@@ -47,17 +47,24 @@ def analyze(filing):
         text = fetch_text(filing["url"]).lower()
         for category, phrases in RULES.items():
             for phrase, weight in phrases.items():
-                matches = len(re.findall(
-                    r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", text
-                ))
+            
+                pattern = r"(?<!\w)" + re.escape(phrase) + r"(?!\w)"
+                found = list(re.finditer(pattern, text))
+                matches = len(found)
+                excerpts = [
+                    text[max(0, m.start()-120):min(len(text), m.end()+120)]
+                    for m in found[:3]
+                ]
                 if matches:
+    
                     points = weight if category == "Positive" else -weight
                     result["score"] += points
                     result["signals"].append({
                         "category": category,
                         "phrase": phrase,
                         "mentions": matches,
-                        "points": points
+                        "points": points,
+                         "excerpts":excerpts
                     })
         result["classification"] = (
             "Potential positive" if result["score"] > 0
