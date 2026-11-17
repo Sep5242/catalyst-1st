@@ -22,11 +22,15 @@ jobs:
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: python scan_sec.py
+      - name: Analyze SEC filings
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python analyze_sec.py
       - name: Save scan results
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/sec-catalysts.json
+          git add data/sec-catalysts.json data/sec-analysis.json
           if ! git diff --cached --quiet; then
             git commit -m 'Update SEC catalyst scan'
             git push
