@@ -57,6 +57,44 @@ def earnings_release_url(html, filing_url):
                 return url
     return None
 
+def earnings_readout(html):
+    # Keep prose blocks separate so table cells do not turn into headlines.
+    blocks = re.split(r"</(?:p|div|li|h[1-6])\s*>|<br\b[^>]*>", html, flags=re.I)
+    sentences = []
+    for block in blocks:
+        prose = " ".join(plain_text(block).split())
+        sentences.extend(re.split(r"(?<![A-Z]\.)(?<![A-Z])(?<=[.!?])\s+(?=[A-Z“])", prose))
+
+    sentences = [line.strip(" “”).") + "." for line in sentences if 35 <= len(line) <= 340]
+    reported = []
+    outlook = []
+    for line in sentences:
+        if re.search(r"\b(?:expects?|anticipates?|outlook|guidance|forecasts?|targets?|projects?)\b", line, re.I):
+            if re.search(r"\b(?:quarter|full.year|fiscal|20\d{2}|Q[1-4])\b", line, re.I):
+                outlook.append(line)
+        elif (re.search(r"\b(?:reported|generated|was|were|increased|decreased|grew|rose|fell)\b", line, re.I)
+              and re.search(r"\b(?:revenue|net sales|net income|earnings per share)\b", line, re.I)
+              and re.search(r"\$\s*\d", line)):
+            reported.append(line)
+
+    result = max(reported, key=lambda line: bool(re.search(r"\b(?:compared|versus|prior)\b", line, re.I)), default="")
+    guidance = max(
+        outlook,
+        key=lambda line: bool(re.search(r"\b(?:to at least|more than|range of|between|expects?)\b.*(?:\$\s*\d|\d%)", line, re.I)),
+        default=""
+    )
+    if not (result or guidance):
+        return {}
+
+    if re.search(r"\bacquisitions?\b", plain_text(html), re.I):
+        question = "How much of the reported growth came from acquisitions, and how much came from the existing business?"
+    elif result:
+        question = "How did operating cash flow compare with the reported result?"
+    else:
+        question = "How does this outlook compare with management’s previous guidance?"
+
+    return {"reported": result, "outlook": guidance, "question": question}
+
 def analyze(filing):
     result = dict(filing)
     result["status"] = "Analyzed"
@@ -70,6 +108,14 @@ def analyze(filing):
             release_url = earnings_release_url(html, filing["url"])
             if release_url:
                 result["earnings_release_url"] = release_url
+                try:
+                    time.sleep(0.3)
+                    readout = earnings_readout(fetch_html(release_url))
+                    if readout:
+                        result["earnings_readout"] = readout
+                except (OSError, ValueError):
+                    # Preserve the filing and exhibit link when the exhibit is unavailable.
+                    pass
         for category, phrases in RULES.items():
             for phrase, weight in phrases.items():
             
