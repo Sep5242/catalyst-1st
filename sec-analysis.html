@@ -4,7 +4,7 @@
 :root{color-scheme:dark}*{box-sizing:border-box}body{font:16px system-ui,Arial,sans-serif;background:#0d1727;color:#edf5ff;margin:0}header{padding:24px;background:#182a40}h1{color:#72e2c3;margin:0 0 8px}main{max-width:1050px;margin:auto;padding:18px}a{color:#8bc9ff}button,select,input{font:inherit;padding:10px;border-radius:8px;border:1px solid #789;background:#253c55;color:#fff}button{cursor:pointer}.controls label{display:flex;align-items:center;gap:6px;min-height:44px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.item{background:#1d3048;padding:15px;border-radius:12px;margin:12px 0;border:1px solid #43576c}.item h3{margin:0 0 7px}.muted{color:#bacbdf}.tag{display:inline-block;border:1px solid #789;border-radius:12px;padding:3px 9px;margin-right:7px;font-size:13px}.high{color:#ffce7d}.medium{color:#a3e6ff}.low{color:#c4d0de}.notice{border-left:4px solid #e2b96e;padding:10px 15px;background:#283448}small{color:#bbcadb}#status{min-height:24px}</style></head>
 <body><header><h1>CATALYST 1ST — SEC Research</h1><div>Filing priorities and evidence</div><p><a href="./">← Return to main dashboard</a></p></header>
 <main><div class="notice">Research priority comes from the filing type. Phrase matches can refer to past events or routine disclosures. Open the original filing to check the date and context.</div>
-<div class="controls"><button id="refresh">Refresh SEC filings</button><input id="search" placeholder="Filter ticker/company" aria-label="Filter ticker or company"><select id="priority" aria-label="Filter priority"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select><label><input type="checkbox" id="review-first"> Review first</label></div><p class="muted">Review first shows phrase matches in filings from the last 7 days and puts explicitly dated recent events first.</p><div id="status" role="status"></div><div id="results"></div></main>
+<div class="controls"><button id="refresh">Refresh SEC filings</button><input id="search" placeholder="Filter ticker/company" aria-label="Filter ticker or company"><select id="priority" aria-label="Filter priority"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select><label><input type="checkbox" id="review-first"> Review first</label><label><input type="checkbox" id="recent-8ks"> Recent 8-Ks</label></div><p class="muted">Review first shows phrase matches in filings from the last 7 days and puts explicitly dated recent events first. Recent 8-Ks includes filings with and without phrase matches.</p><div id="status" role="status"></div><div id="results"></div></main>
 <script>
 let filings=[];
 let analysisByAccession = new Map();
@@ -33,13 +33,18 @@ const REVIEW_DAYS = 7;
 const months = 'January February March April May June July August September October November December'.split(' ');
 const explicitDate = new RegExp('\\bon (' + months.join('|') + ') (\\d{1,2}), (20\\d{2})\\b', 'gi');
 
+function filedRecently(filing, today) {
+  const filed = Date.parse(filing.filed);
+  return filed <= today && filed > today - REVIEW_DAYS * DAY;
+}
+
 function reviewDetails(filing, today) {
   const signals = analysisByAccession.get(filing.accession)?.signals ?? [];
   const excerpts = signals.flatMap(signal =>
     (signal.excerpts ?? []).map(text => ({text, phrase: signal.phrase})));
   if (!signals.length) return {rank: 0, label: ''};
   const filed = Date.parse(filing.filed);
-  const recentFiling = filed <= today && filed > today - REVIEW_DAYS * DAY;
+  const recentFiling = filedRecently(filing, today);
   const dates = new Set();
   let historical = 0;
   for (const {text, phrase} of excerpts) {
@@ -74,6 +79,7 @@ function render() {
   const query = document.getElementById('search').value.trim().toLowerCase();
   const priority = document.getElementById('priority').value;
   const reviewFirst = document.getElementById('review-first').checked;
+  const recent8ks = document.getElementById('recent-8ks').checked;
   const today = Date.parse(new Date().toISOString().slice(0, 10));
   const results = filings.map(filing => ({
     filing,
@@ -82,10 +88,12 @@ function render() {
   })).filter(({filing, classification, review}) =>
     (!priority || priority === classification.priority) &&
     (!query || [filing.ticker, filing.company].some(value => String(value ?? '').toLowerCase().includes(query))) &&
-    (!reviewFirst || review.rank > 0));
+    (!reviewFirst || review.rank > 0) &&
+    (!recent8ks || (filing.form === '8-K' && filedRecently(filing, today))));
   if (reviewFirst) {
     results.sort((a, b) => b.review.rank - a.review.rank || b.filing.filed.localeCompare(a.filing.filed));
   }
+  if (recent8ks) results.sort((a, b) => b.filing.filed.localeCompare(a.filing.filed));
   document.getElementById('status').textContent = `Showing ${results.length} of ${filings.length} filings${analysisStatus}`;
   document.getElementById('results').innerHTML = results.length ? results.map(({filing, classification, review}) => {
     const url = String(filing.url ?? '');
@@ -101,7 +109,7 @@ function render() {
       <p>${esc(classification.why)}</p>
       ${link}${renderEvidence(filing)}
     </article>`;
-  }).join('') : `<p>${reviewFirst ? 'No filings match Review first. Turn it off to browse older or unmatched filings.' : 'No matching filings.'}</p>`;
+  }).join('') : `<p>${reviewFirst ? 'No filings match Review first. Turn it off to browse older or unmatched filings.' : recent8ks ? 'No 8-Ks from the last seven days match your filters.' : 'No matching filings.'}</p>`;
 }
 async function readFeed(path) {
   const response = await fetch(path, {cache: 'no-store'});
@@ -144,6 +152,11 @@ async function load() {
   }
 }
 document.getElementById('refresh').onclick=load;document.getElementById('search').oninput=render;document.getElementById('priority').onchange=render;
-document.getElementById('review-first').onchange=render;
+for (const [id, otherId] of [['review-first', 'recent-8ks'], ['recent-8ks', 'review-first']]) {
+  document.getElementById(id).onchange = event => {
+    if (event.target.checked) document.getElementById(otherId).checked = false;
+    render();
+  };
+}
 load();
 </script></body></html>
