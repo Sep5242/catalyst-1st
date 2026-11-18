@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T14:23:11.370139+00:00",
+  "generated_at": "2026-11-18T16:48:48.299803+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -64,6 +64,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1646188/000119312526457088/onds-ex99_1.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -114,6 +116,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026072193/oxyex9919-30x26earningsrel.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -153,6 +157,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1780312/000119312526453758/asts-ex99_1.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -192,6 +198,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526449884/d120646dex991.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -264,6 +272,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000089/pressreleasenuscale2026q.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -290,6 +300,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000139/exhibit991redwire09302026e.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -373,6 +385,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000188/q326earningsrelease.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -438,6 +452,7 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
       "classification": "No rule-based signal"
     },
     {
@@ -451,6 +466,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/831001/000110465926115323/c-ex99d1.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -464,6 +481,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000255/earningsrelease3q26unh.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -627,6 +646,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -691,6 +712,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000039/exhibit991earnings8kq2fy27.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -895,6 +918,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000121/exhibit991redwire06302026e.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -908,6 +933,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1822966/000182296626000086/a2026-08x05xnuscaleq2202.htm",
       "classification": "No rule-based signal"
     },
     {
@@ -969,6 +996,8 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm",
       "classification": "No rule-based signal"
     },
     {
