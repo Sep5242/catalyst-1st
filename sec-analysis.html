@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Catalyst 1st | SEC Analysis</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box}body{font:16px system-ui,Arial,sans-serif;background:#0d1727;color:#edf5ff;margin:0}header{padding:24px;background:#182a40}h1{color:#72e2c3;margin:0 0 8px}main{max-width:1050px;margin:auto;padding:18px}a{color:#8bc9ff}button,select,input{font:inherit;padding:10px;border-radius:8px;border:1px solid #789;background:#253c55;color:#fff}button{cursor:pointer}.controls label{display:flex;align-items:center;gap:6px;min-height:44px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.item{background:#1d3048;padding:15px;border-radius:12px;margin:12px 0;border:1px solid #43576c}.item h3{margin:0 0 7px}.muted{color:#bacbdf}.tag{display:inline-block;border:1px solid #789;border-radius:12px;padding:3px 9px;margin-right:7px;font-size:13px}.high{color:#ffce7d}.medium{color:#a3e6ff}.low{color:#c4d0de}.notice{border-left:4px solid #e2b96e;padding:10px 15px;background:#283448}small{color:#bbcadb}#status{min-height:24px}</style></head>
-<body><header><h1>CATALYST 1ST — SEC Research</h1><div>Filing priorities and evidence</div><p><a href="./">← Return to main dashboard</a></p></header>
+<body><header><h1>CATALYST 1ST — SEC Research</h1><div>Filing priorities, evidence and earnings releases</div><p><a href="./">← Return to main dashboard</a></p></header>
 <main><div class="notice">Research priority comes from the filing type. Phrase matches can refer to past events or routine disclosures. Open the original filing to check the date and context.</div>
 <div class="controls"><button id="refresh">Refresh SEC filings</button><input id="search" placeholder="Filter ticker/company" aria-label="Filter ticker or company"><select id="priority" aria-label="Filter priority"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select><label><input type="checkbox" id="review-first"> Review first</label><label><input type="checkbox" id="recent-8ks"> Recent 8-Ks</label></div><p class="muted">Review first shows phrase matches in filings from the last 7 days and puts explicitly dated recent events first. Recent 8-Ks includes filings with and without phrase matches.</p><div id="status" role="status"></div><div id="results"></div></main>
 <script>
@@ -11,6 +11,16 @@ let analysisByAccession = new Map();
 let analysisStatus = "";
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function classify(form){const f=String(form||'').toUpperCase();if(f==='8-K'||f==='6-K')return {priority:'High',type:'Current event disclosure',why:'Review the filing items for earnings, contracts, acquisitions, financing or other material events. Significance and direction are unverified.'};if(f==='10-Q'||f==='10-K'||f==='20-F')return {priority:'Medium',type:'Financial report',why:'Review results, guidance, liquidity, risks and changes versus prior periods.'};if(f.startsWith('S-')||f.includes('424B')||f==='F-3')return {priority:'High',type:'Securities offering / registration',why:'Check for dilution, financing terms and changes in share count. May be negative or neutral.'};if(f==='4')return {priority:'Medium',type:'Insider transaction',why:'Review transaction codes, ownership changes and whether sales are planned.'};return {priority:'Low',type:'Other SEC filing',why:'Read the filing to determine whether any material catalyst exists.'}}
+function renderEarnings(filing) {
+  const analysis = analysisByAccession.get(filing.accession);
+  if (!analysis?.earnings_results) return '';
+  const url = analysis.earnings_release_url;
+  const link = /^https:\/\/(www\.)?sec\.gov\/archives\/edgar\/data\//i.test(url)
+    ? ` <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open earnings release (Exhibit 99.1)</a>`
+    : '';
+  return `<p><strong>Earnings results · Item 2.02</strong>${link}</p>`;
+}
+
 function renderEvidence(filing) {
   const analysis = analysisByAccession.get(filing.accession);
   if (!analysis) return '<p class="muted">Filing evidence unavailable.</p>';
@@ -107,7 +117,7 @@ function render() {
       <p class="muted">Filed: ${esc(filing.filed || 'Unknown')} · ${esc(classification.type)}</p>
       ${review.label ? `<p class="muted">${esc(review.label)}</p>` : ''}
       <p>${esc(classification.why)}</p>
-      ${link}${renderEvidence(filing)}
+      ${renderEarnings(filing)}${link}${renderEvidence(filing)}
     </article>`;
   }).join('') : `<p>${reviewFirst ? 'No filings match Review first. Turn it off to browse older or unmatched filings.' : recent8ks ? 'No 8-Ks from the last seven days match your filters.' : 'No matching filings.'}</p>`;
 }
