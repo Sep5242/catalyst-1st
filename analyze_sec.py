@@ -1,6 +1,7 @@
 import json, os, re, time, urllib.request
 from pathlib import Path
 from html import unescape
+from urllib.parse import urljoin, urlsplit
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent
@@ -25,7 +26,7 @@ RULES = {
     }
 }
 
-def fetch_text(url):
+def fetch_html(url):
     req = urllib.request.Request(url, headers={
         "User-Agent": UA,
         "Accept": "text/html,text/plain",
@@ -33,10 +34,28 @@ def fetch_text(url):
     })
     with urllib.request.urlopen(req, timeout=25) as response:
         raw = response.read(2000000)
-    text = raw.decode("utf-8", errors="replace")
+    return raw.decode("utf-8", errors="replace")
+
+def plain_text(text):
     text = re.sub(r"(?is)<(script|style).*?</\1>", " ", text)
     text = re.sub(r"(?s)<[^>]+>", " ", text)
     return unescape(re.sub(r"\s+", " ", text))
+
+def earnings_release_url(html, filing_url):
+    for row in re.findall(r"<tr\b[^>]*>(.*?)</tr>", html, re.I | re.S):
+        cells = re.findall(r"<td\b[^>]*>(.*?)</td>", row, re.I | re.S)
+        if len(cells) < 2 or plain_text(cells[0]).strip() != "99.1":
+            continue
+        for anchor in re.finditer(r"""<a\b[^>]*?\bhref\s*=\s*(["'])(.*?)\1[^>]*>(.*?)</a>""", row, re.I | re.S):
+            if not re.search(r"press release|earnings release", plain_text(anchor[3]), re.I):
+                continue
+            url = urljoin(filing_url, unescape(anchor[2]).strip())
+            target = urlsplit(url)
+            if (target.scheme == "https" and target.netloc.lower() in {"www.sec.gov", "sec.gov"}
+                    and target.path.lower().startswith("/archives/edgar/data/")
+                    and target.path.lower().endswith((".html", ".htm"))):
+                return url
+    return None
 
 def analyze(filing):
     result = dict(filing)
@@ -44,7 +63,13 @@ def analyze(filing):
     result["signals"] = []
     result["score"] = 0
     try:
-        text = fetch_text(filing["url"]).lower()
+        html = fetch_html(filing["url"])
+        text = plain_text(html).lower()
+        if filing.get("form") in {"8-K", "8-K/A"} and re.search(r"\bitem\s+2\.02\b", text):
+            result["earnings_results"] = True
+            release_url = earnings_release_url(html, filing["url"])
+            if release_url:
+                result["earnings_release_url"] = release_url
         for category, phrases in RULES.items():
             for phrase, weight in phrases.items():
             
