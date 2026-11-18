@@ -1,8 +1,17 @@
 {
-  "generated_at": "2026-11-17T22:04:47.520742+00:00",
+  "generated_at": "2026-11-18T14:22:41.294831+00:00",
   "source": "SEC EDGAR public submissions API",
   "scope": "Selected watchlist tickers; recent filings only, not all-market discovery",
   "filings": [
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "8-K",
+      "filed": "2026-11-18",
+      "accession": "0000950157-26-001273",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000095015726001273/form8-k.htm",
+      "description": "CURRENT REPORT"
+    },
     {
       "ticker": "ASTS",
       "company": "AST SpaceMobile, Inc.",
@@ -470,15 +479,6 @@
       "accession": "0001628280-26-053388",
       "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm",
       "description": "10-Q"
-    },
-    {
-      "ticker": "OXY",
-      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
-      "form": "8-K",
-      "filed": "2026-08-05",
-      "accession": "0001628280-26-053377",
-      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053377/oxy-20260805.htm",
-      "description": "8-K"
     },
     {
       "ticker": "RDW",

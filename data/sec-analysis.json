@@ -1,8 +1,21 @@
 {
-  "generated_at": "2026-11-17T22:05:21.611368+00:00",
+  "generated_at": "2026-11-18T14:23:11.370139+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
+    {
+      "ticker": "OXY",
+      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
+      "form": "8-K",
+      "filed": "2026-11-18",
+      "accession": "0000950157-26-001273",
+      "url": "https://www.sec.gov/Archives/edgar/data/797468/000095015726001273/form8-k.htm",
+      "description": "CURRENT REPORT",
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
     {
       "ticker": "ASTS",
       "company": "AST SpaceMobile, Inc.",
@@ -870,19 +883,6 @@
       ],
       "score": 2,
       "classification": "Potential positive"
-    },
-    {
-      "ticker": "OXY",
-      "company": "OCCIDENTAL PETROLEUM CORP /DE/",
-      "form": "8-K",
-      "filed": "2026-08-05",
-      "accession": "0001628280-26-053377",
-      "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053377/oxy-20260805.htm",
-      "description": "8-K",
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "classification": "No rule-based signal"
     },
     {
       "ticker": "RDW",
