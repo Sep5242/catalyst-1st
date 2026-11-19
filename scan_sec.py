@@ -39,11 +39,13 @@ def discover(by_cik, today, errors):
     # EDGAR publishes daily indexes after the filing day closes.
     for offset in range(1, 8):
         date = today - timedelta(days=offset)
+        if date.weekday() >=5:
+            continue
         quarter = (date.month - 1) // 3 + 1
         url = f'{SEC}/Archives/edgar/daily-index/{date.year}/QTR{quarter}/master.{date:%Y%m%d}.idx'
         try:
             index = fetch(url).decode('latin-1')
-            _, separator, rows = index.partition('CIK|Company Name|Form Type|Date Filed|Filename')
+            _, separator, rows = index.partition('CIK|Company Name|Form Type|Date Filed|File Name')
             if not separator:
                 raise ValueError('EDGAR index header missing')
         except HTTPError as exc:
