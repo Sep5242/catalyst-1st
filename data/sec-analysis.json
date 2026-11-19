@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T15:41:52.982251+00:00",
+  "generated_at": "2026-11-19T16:47:20.084841+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -87,19 +87,13 @@
       "description": "8-K",
       "discovery": true,
       "status": "Analyzed",
-      "signals": [
-        {
-          "category": "Negative",
-          "phrase": "public offering",
-          "mentions": 1,
-          "points": -3,
-          "excerpts": [
-            "ction. this communication is not, and under no circumstances is to be construed as, a prospectus, an advertisement or a public offering of the securities in the united states or any other jurisdiction. no offer of securities shall be made except by means "
-          ]
-        }
-      ],
-      "score": -3,
-      "classification": "Potential negative"
+      "signals": [],
+      "score": 0,
+      "private_financing": {
+        "item": "1.01",
+        "excerpt": "entered into additional subscription agreements (the \u201c Additional PIPE Subscription Agreement s\u201d) with certain institutional and accredited investors (the \u201c Additional Subscribers \u201d), pursuant to which the Company agreed to issue and sell, in a private placement (the \u201c Additional PIPE Financing \u201d), an aggregate of 1,500,000 ordinary shares of the Company (the \u201c PIPE Shares \u201d) at a price of $10.00 per share, for an aggregate purchase price of approximately $15.0 million"
+      },
+      "classification": "No rule-based signal"
     },
     {
       "ticker": "VIVK",
@@ -4778,7 +4772,7 @@
         {
           "category": "Negative",
           "phrase": "public offering",
-          "mentions": 4,
+          "mentions": 3,
           "points": -3,
           "excerpts": [
             " the domestication (after giving effect to the redemption of the adac class a shares initially issued in adac\u2019s initial public offering (\u201cipo\u201d) (the \u201cpublic shares\u201d and the holders of public shares, the \u201cpublic shareholders\u201d) that are validly submitted fo",
@@ -5299,12 +5293,12 @@
         {
           "category": "Negative",
           "phrase": "public offering",
-          "mentions": 4,
+          "mentions": 3,
           "points": -3,
           "excerpts": [
             "donesia to indonesian citizens wherever they are domiciled, or to indonesian residents, in a manner which constitutes a public offering of the securities under indonesian law no. 8 of 1995 on capital markets (as amended) and its implementing regulations, ",
             "f the securities under the ojk regulation no. 30/pojk.04/2019 on the issuance of debt securities and/or sukuk without a public offering, or an offering of securities which is not a public offering by certain exempted issuers under ojk circular letter no. ",
-            " on the issuance of debt securities and/or sukuk without a public offering, or an offering of securities which is not a public offering by certain exempted issuers under ojk circular letter no. 33/seojk.04/2022 on guidelines for securities offerings that "
+            "e non-public offerings. ptfi does not intend to register any portion of the notes offering in indonesia or to conduct a public offering of the notes in indonesia. this current report on form 8-k shall not constitute an offer to sell or a solicitation of a"
           ]
         }
       ],
@@ -8326,19 +8320,9 @@
       "description": "REPORT OF FOREIGN PRIVATE ISSUER",
       "discovery": true,
       "status": "Analyzed",
-      "signals": [
-        {
-          "category": "Negative",
-          "phrase": "public offering",
-          "mentions": 1,
-          "points": -3,
-          "excerpts": [
-            "ction. this communication is not, and under no circumstances is to be construed as, a prospectus, an advertisement or a public offering of the securities described herein in the united states or any other jurisdiction. no offer of securities shall be made"
-          ]
-        }
-      ],
-      "score": -3,
-      "classification": "Potential negative"
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
     },
     {
       "ticker": "TURB",
@@ -11893,10 +11877,11 @@
       "url": "https://www.sec.gov/Archives/edgar/data/1833141/000183314126000102/heluspharmainc-form6xkq220.htm",
       "description": "6-K",
       "discovery": true,
-      "status": "Analyzed",
+      "status": "Fetch error",
       "signals": [],
       "score": 0,
-      "classification": "No rule-based signal"
+      "classification": "Not analyzed",
+      "error": "HTTP Error 504: Gateway Time-out"
     },
     {
       "ticker": "FVN",
@@ -12207,6 +12192,10 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "private_financing": {
+        "item": "1.01",
+        "excerpt": "entered into a Share Purchase Agreement, dated November 15, 2026 (the \u201cPurchase Agreement\u201d), with entities affiliated with Gregg Williams, Chairman of the Company\u2019s board of directors, and Aaron Mendelsohn, another member of the Company\u2019s board of directors (collectively, the \u201cPurchasers\u201d) for the purchase of an aggregate of 5,049,506 shares of common stock, par value of $0.0001 per share (\u201cCommon Stock\u201d) of the Company at a purchase price of $1.01 per share (the \u201cPrivate Placement Shares\u201d), the last reported sale price of the Common Stock on November 13, 2026. This private placement of Common Stock resulted in gross proceeds of approximately $5.1 million"
+      },
       "classification": "No rule-based signal"
     },
     {
@@ -18020,12 +18009,12 @@
         {
           "category": "Negative",
           "phrase": "public offering",
-          "mentions": 4,
+          "mentions": 3,
           "points": -3,
           "excerpts": [
             "donesia to indonesian citizens wherever they are domiciled, or to indonesian residents, in a manner which constitutes a public offering of the securities under indonesian law no. 8 of 1995 on capital markets (as amended) and its implementing regulations, ",
             "f the securities under the ojk regulation no. 30/pojk.04/2019 on the issuance of debt securities and/or sukuk without a public offering, or an offering of securities which is not a public offering by certain exempted issuers under ojk circular letter no. ",
-            " on the issuance of debt securities and/or sukuk without a public offering, or an offering of securities which is not a public offering by certain exempted issuers under ojk circular letter no. 33/seojk.04/2022 on guidelines for securities offerings that "
+            "e non-public offerings. ptfi does not intend to register any portion of the notes offering in indonesia or to conduct a public offering of the notes in indonesia. this current report on form 8-k shall not constitute an offer to sell or a solicitation of a"
           ]
         }
       ],
@@ -22043,19 +22032,9 @@
       "description": "8-K",
       "discovery": true,
       "status": "Analyzed",
-      "signals": [
-        {
-          "category": "Negative",
-          "phrase": "public offering",
-          "mentions": 1,
-          "points": -3,
-          "excerpts": [
-            "ction. this communication is not, and under no circumstances is to be construed as, a prospectus, an advertisement or a public offering of the securities in the united states or any other jurisdiction. no offer of securities shall be made except by means "
-          ]
-        }
-      ],
-      "score": -3,
-      "classification": "Potential negative"
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
     },
     {
       "ticker": "FIEE",
@@ -23384,6 +23363,10 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "private_financing": {
+        "item": "1.01",
+        "excerpt": "entered into a Securities Purchase Agreement (the \u201c Purchase Agreement \u201d) with certain accredited investors (the \u201c Purchasers \u201d), pursuant to which the Company agreed to issue and sell to the Purchasers, in a private placement (the \u201c Private Placement \u201d), an aggregate of 1,363,639 shares (the \u201c Shares \u201d) of the Company\u2019s common stock, par value $0.001 per share (the \u201c Common Stock \u201d), at a purchase price of $1.10 per share, for aggregate gross proceeds of approximately $1.5 million"
+      },
       "classification": "No rule-based signal"
     },
     {
@@ -24938,19 +24921,9 @@
       "description": "6-K",
       "discovery": true,
       "status": "Analyzed",
-      "signals": [
-        {
-          "category": "Negative",
-          "phrase": "public offering",
-          "mentions": 1,
-          "points": -3,
-          "excerpts": [
-            " in brazil, any securities cannot be offered or sold in brazil without registration or exemption from registration, any public offering of securities to be made in brazil will be prepared by means of a prospectus that can be obtained from braskem and whic"
-          ]
-        }
-      ],
-      "score": -3,
-      "classification": "Potential negative"
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
     },
     {
       "ticker": "SID",
@@ -34593,6 +34566,10 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "private_financing": {
+        "item": "1.01",
+        "excerpt": "entered into a private placement agreements (collectively, the \u201cPrivate Placement Agreements\u201d) with Mr. Chan Kai Fung (the \u201cInvestors\u201d), pursuant to which the Company agreed to issue and sell an aggregate of 312,500 shares of its common stock, at a purchase price of $4.80 per share, for aggregate gross proceeds of approximately $1.5 million"
+      },
       "classification": "No rule-based signal"
     },
     {
