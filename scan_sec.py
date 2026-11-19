@@ -36,7 +36,8 @@ def fetch_json(url):
 def discover(by_cik, today, errors):
     accessions = {}
     index_dates = []
-    for offset in range(7):
+    # EDGAR publishes daily indexes after the filing day closes.
+    for offset in range(1, 8):
         date = today - timedelta(days=offset)
         quarter = (date.month - 1) // 3 + 1
         url = f'{SEC}/Archives/edgar/daily-index/{date.year}/QTR{quarter}/master.{date:%Y%m%d}.idx'
