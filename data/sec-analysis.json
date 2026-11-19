@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T16:47:20.084841+00:00",
+  "generated_at": "2026-11-19T22:37:03.321031+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -11877,11 +11877,10 @@
       "url": "https://www.sec.gov/Archives/edgar/data/1833141/000183314126000102/heluspharmainc-form6xkq220.htm",
       "description": "6-K",
       "discovery": true,
-      "status": "Fetch error",
+      "status": "Analyzed",
       "signals": [],
       "score": 0,
-      "classification": "Not analyzed",
-      "error": "HTTP Error 504: Gateway Time-out"
+      "classification": "No rule-based signal"
     },
     {
       "ticker": "FVN",
