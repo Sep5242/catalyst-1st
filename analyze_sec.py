@@ -116,6 +116,32 @@ def share_issuance_readout(text):
     ]
 
 
+def private_financing_readout(text):
+    agreement = re.search(
+        r"\bitem\s+1\.01\b(.*?)(?=\bitem\s+\d\.\d{2}\b|$)", text, re.I
+    )
+    if not agreement:
+        return None
+    # Keep the signed agreement, proceeds, and share terms in the same sentence.
+    match = re.search(
+        r"(?P<evidence>\bentered into [^!?]{1,700}?"
+        r"\b(?:private placement|private investment in public equity)\b"
+        r"[^!?]{0,400}?\b(?:aggregate purchase price|gross proceeds) of "
+        r"(?:approximately )?\$[\d,.]+(?:\s+(?:million|billion))?)",
+        agreement[1], re.I
+    )
+    if match:
+        return {"item": "1.01", "excerpt": match["evidence"].rstrip(".")}
+    return None
+
+
+OFFERING_DISCLAIMER = re.compile(
+    r"\b(?:does not constitute|is not|shall not (?:be|constitute)|"
+    r"not to be construed as|is not intended to constitute)\b"
+    r"[^.!?;]{0,220}\bpublic offering\b", re.I
+)
+
+
 def analyze(filing):
     result = dict(filing)
     result["status"] = "Analyzed"
@@ -126,6 +152,9 @@ def analyze(filing):
         prose = " ".join(plain_text(html).split())
         text = prose.lower()
         if filing.get("form") in {"8-K", "8-K/A"}:
+            financing = private_financing_readout(prose)
+            if financing:
+                result["private_financing"] = financing
             issuances = share_issuance_readout(prose)
             if issuances:
                 result["share_issuances"] = issuances
@@ -142,11 +171,17 @@ def analyze(filing):
                 except (OSError, ValueError):
                     # Preserve the filing and exhibit link when the exhibit is unavailable.
                     pass
+        # Blank only the matched words, preserving offsets and other evidence.
+        disclaimer_text = OFFERING_DISCLAIMER.sub(
+            lambda match: match[0][:-len("public offering")] + " " * len("public offering"),
+            text
+        )
         for category, phrases in RULES.items():
             for phrase, weight in phrases.items():
             
                 pattern = r"(?<!\w)" + re.escape(phrase) + r"(?!\w)"
-                found = list(re.finditer(pattern, text))
+                searchable = disclaimer_text if phrase == "public offering" else text
+                found = list(re.finditer(pattern, searchable))
                 matches = len(found)
                 excerpts = [
                     text[max(0, m.start()-120):min(len(text), m.end()+120)]
