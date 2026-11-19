@@ -1,46 +1,147 @@
-import json, os, time, urllib.request
-from datetime import datetime, timezone
+import gzip
+import json
+import os
+import time
+import urllib.request
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.error import HTTPError
+from urllib.parse import quote
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
-(ROOT / 'data').mkdir(parents=True, exist_ok=True)
-TICKERS = ['DVN','OXY','ORCL','C','UNH','DELL','INTC','ASTS','RDW','SMR','NNE','ONDS']
-FORMS = {'8-K','10-Q','10-K','6-K','20-F'}
-UA = os.environ.get('SEC_USER_AGENT','')
-if not UA or '@' not in UA:
-    raise SystemExit('Set SEC_USER_AGENT to a descriptive name and real contact email in GitHub Actions secrets.')
-HEADERS={'User-Agent': UA, 'Accept-Encoding':'gzip, deflate', 'Accept':'application/json'}
-def fetch(url):
-    req=urllib.request.Request(url,headers=HEADERS)
-    with urllib.request.urlopen(req,timeout=30) as resp:
-        body=resp.read()
-        if resp.headers.get('Content-Encoding')=='gzip':
-            import gzip
-            body=gzip.decompress(body)
-        return json.loads(body)
+SEC = 'https://www.sec.gov'
+TICKERS = ['DVN', 'OXY', 'ORCL', 'C', 'UNH', 'DELL', 'INTC', 'ASTS', 'RDW', 'SMR', 'NNE', 'ONDS']
+FORMS = {'8-K', '10-Q', '10-K', '6-K', '20-F'}
+DISCOVERY_FORMS = {'8-K', '6-K'}
 
-mapping=fetch('https://www.sec.gov/files/company_tickers.json')
-by_ticker={v['ticker'].upper():v for v in mapping.values()}
-items=[]; errors=[]
-for ticker in TICKERS:
-    record=by_ticker.get(ticker)
-    if not record:
-        errors.append(f'{ticker}: no SEC CIK mapping');continue
-    cik=int(record['cik_str'])
-    try:
-        filing=fetch(f'https://data.sec.gov/submissions/CIK{cik:010d}.json')
-        recent=filing['filings']['recent']
-        for i,(form,date) in enumerate(zip(recent['form'],recent['filingDate'])):
-            if form not in FORMS:continue
-            accession=recent['accessionNumber'][i]
-            doc=recent['primaryDocument'][i]
-            url=f'https://www.sec.gov/Archives/edgar/data/{cik}/{accession.replace("-", "")}/{doc}'
-            items.append({'ticker':ticker,'company':record['title'],'form':form,'filed':date,'accession':accession,'url':url,'description':recent.get('primaryDocDescription',['']*len(recent['form']))[i]})
-            if sum(x['ticker']==ticker for x in items)>=5:break
-    except Exception as exc:
-        errors.append(f'{ticker}: {type(exc).__name__}: {exc}')
-    time.sleep(.3)
-items.sort(key=lambda x:x['filed'],reverse=True)
-out={'generated_at':datetime.now(timezone.utc).isoformat(),'source':'SEC EDGAR public submissions API','scope':'Selected watchlist tickers; recent filings only, not all-market discovery','filings':items,'errors':errors}
-(ROOT/'data'/'sec-catalysts.json').write_text(json.dumps(out,indent=2)+'\n')
-print(f'Wrote {len(items)} filings; {len(errors)} errors')
+
+def fetch(url):
+    request = urllib.request.Request(url, headers={
+        'User-Agent': os.environ['SEC_USER_AGENT'],
+        'Accept-Encoding': 'gzip',
+    })
+    time.sleep(0.3)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        body = response.read()
+        if response.headers.get('Content-Encoding') == 'gzip':
+            body = gzip.decompress(body)
+        return body
+
+
+def fetch_json(url):
+    return json.loads(fetch(url))
+
+
+def discover(by_cik, today, errors):
+    accessions = {}
+    index_dates = []
+    for offset in range(7):
+        date = today - timedelta(days=offset)
+        quarter = (date.month - 1) // 3 + 1
+        url = f'{SEC}/Archives/edgar/daily-index/{date.year}/QTR{quarter}/master.{date:%Y%m%d}.idx'
+        try:
+            index = fetch(url).decode('latin-1')
+            _, separator, rows = index.partition('CIK|Company Name|Form Type|Date Filed|Filename')
+            if not separator:
+                raise ValueError('EDGAR index header missing')
+        except HTTPError as exc:
+            if exc.code != 404:
+                errors.append(f'{date}: EDGAR index HTTP {exc.code}')
+                if exc.code in {403, 429}:
+                    break
+            continue
+        except (OSError, ValueError) as exc:
+            errors.append(f'{date}: EDGAR index: {exc}')
+            continue
+        index_dates.append(date.isoformat())
+        for row in rows.splitlines():
+            parts = row.split('|')
+            if len(parts) != 5:
+                continue
+            cik, _, form, _, filename = parts
+            if form in DISCOVERY_FORMS and cik.isdecimal() and int(cik) in by_cik:
+                accessions.setdefault(int(cik), set()).add(Path(filename).stem)
+    return accessions, index_dates
+
+
+def scan(today):
+    mapping = fetch_json(f'{SEC}/files/company_tickers_exchange.json')
+    by_cik = {}
+    watch_tickers = {}
+    for row in mapping['data']:
+        record = dict(zip(mapping['fields'], row))
+        ticker = record['ticker'].upper()
+        cik = int(record['cik'])
+        if ticker in TICKERS:
+            watch_tickers[ticker] = cik
+        if record['exchange'] in {'Nasdaq', 'NYSE', 'NYSE American', 'Cboe', 'NYSE Arca'}:
+            by_cik.setdefault(cik, []).append(record)
+
+    errors = [f'{ticker}: no SEC CIK mapping' for ticker in TICKERS if ticker not in watch_tickers]
+    discovered, index_dates = discover(by_cik, today, errors)
+    if not index_dates:
+        raise RuntimeError('No EDGAR daily index was available. ' + ' | '.join(errors))
+
+    watch_by_cik = {cik: ticker for ticker, cik in watch_tickers.items()}
+    items = []
+    for cik in dict.fromkeys([*watch_by_cik, *discovered]):
+        try:
+            filing = fetch_json(f'https://data.sec.gov/submissions/CIK{cik:010d}.json')
+            recent = filing['filings']['recent']
+            listing = by_cik.get(cik, [])
+            tickers = list(dict.fromkeys(record['ticker'].upper() for record in listing))
+            ticker = watch_by_cik.get(cik) or tickers[0]
+            indexed = discovered.get(cik, set())
+            unresolved = indexed.copy()
+            watch_count = 0
+            descriptions = recent.get('primaryDocDescription', [''] * len(recent['form']))
+            report_dates = recent.get('reportDate', [''] * len(recent['form']))
+            for form, date, accession, doc, description, report_date in zip(
+                recent['form'], recent['filingDate'], recent['accessionNumber'],
+                recent['primaryDocument'], descriptions, report_dates,
+            ):
+                in_watchlist = cik in watch_by_cik and form in FORMS and watch_count < 5
+                if in_watchlist:
+                    watch_count += 1
+                if not (in_watchlist or accession in indexed):
+                    continue
+                if not doc:
+                    errors.append(f'{accession}: primary document missing')
+                    continue
+                unresolved.discard(accession)
+                items.append({
+                    'ticker': ticker, 'tickers': tickers, 'company': filing['name'],
+                    'form': form, 'filed': date, 'report_date': report_date, 'accession': accession,
+                    'url': f'{SEC}/Archives/edgar/data/{cik}/{accession.replace("-", "")}/{quote(doc)}',
+                    'description': description,
+                    'discovery': cik not in watch_by_cik,
+                })
+            errors.extend(f'{accession}: filing missing from issuer submissions' for accession in sorted(unresolved))
+        except (OSError, ValueError, KeyError) as exc:
+            errors.append(f'CIK {cik}: {exc}')
+    items.sort(key=lambda item: (item['filed'], item['accession']), reverse=True)
+    return {
+        'generated_at': datetime.now(timezone.utc).isoformat(),
+        'source': 'SEC EDGAR daily indexes and public submissions API',
+        'scope': 'Recent 8-K and 6-K filings from SEC-mapped exchange listings, plus watchlist history',
+        'index_dates': sorted(index_dates, reverse=True),
+        'filings': items,
+        'errors': errors,
+    }
+
+
+def main():
+    ua = os.environ.get('SEC_USER_AGENT', '')
+    if '@' not in ua:
+        raise SystemExit('Set SEC_USER_AGENT to a descriptive name and real contact email in GitHub Actions secrets.')
+    output = scan(datetime.now(ZoneInfo('America/New_York')).date())
+    path = ROOT / 'data' / 'sec-catalysts.json'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(output, indent=2) + '\n')
+    discoveries = sum(item['discovery'] for item in output['filings'])
+    print(f"Wrote {len(output['filings'])} filings ({discoveries} outside the watchlist); {len(output['errors'])} errors")
+
+
+if __name__ == '__main__':
+    main()

@@ -95,6 +95,27 @@ def earnings_readout(html):
 
     return {"reported": result, "outlook": guidance, "question": question}
 
+def share_issuance_readout(text):
+    # Require an explicit quantity and issuance wording in an Other Events item.
+    item = re.search(r"\bitem\s+8\.01\b(.*?)(?=\bitem\s+9\.01\b|$)", text, re.I)
+    if not item:
+        return []
+    pattern = re.compile(
+        r"(?P<count>\b\d[\d,]*) shares of (?:the )?company[’']s "
+        r"(?:class [a-z] )?common stock (?:\([^)]*\) )?that the company "
+        r"(?P<action>may elect to issue|may issue|issued) to "
+        r"(?P<recipient>[^.;(]{2,100})", re.I
+    )
+    return [
+        {
+            "status": "Issued" if match["action"].lower() == "issued" else "Potential issuance",
+            "shares": int(match["count"].replace(",", "")),
+            "excerpt": match[0].strip(),
+        }
+        for match in pattern.finditer(item[1])
+    ]
+
+
 def analyze(filing):
     result = dict(filing)
     result["status"] = "Analyzed"
@@ -102,7 +123,12 @@ def analyze(filing):
     result["score"] = 0
     try:
         html = fetch_html(filing["url"])
-        text = plain_text(html).lower()
+        prose = " ".join(plain_text(html).split())
+        text = prose.lower()
+        if filing.get("form") in {"8-K", "8-K/A"}:
+            issuances = share_issuance_readout(prose)
+            if issuances:
+                result["share_issuances"] = issuances
         if filing.get("form") in {"8-K", "8-K/A"} and re.search(r"\bitem\s+2\.02\b", text):
             result["earnings_results"] = True
             release_url = earnings_release_url(html, filing["url"])
