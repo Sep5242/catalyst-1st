@@ -1,8 +1,27 @@
 {
-  "generated_at": "2026-11-20T14:49:56.382564+00:00",
+  "generated_at": "2026-11-20T22:24:08.121964+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
+    {
+      "ticker": "ORCL",
+      "tickers": [
+        "ORCL",
+        "ORCL-PD"
+      ],
+      "company": "ORACLE CORP",
+      "form": "8-K",
+      "filed": "2026-11-20",
+      "report_date": "2026-11-18",
+      "accession": "0001193125-26-470351",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526470351/orcl-20261118.htm",
+      "description": "8-K",
+      "discovery": false,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
     {
       "ticker": "LXFR",
       "tickers": [
@@ -4382,9 +4401,8 @@
       "classification": "No rule-based signal"
     },
     {
-      "ticker": "BIP",
+      "ticker": "BIPH",
       "tickers": [
-        "BIP",
         "BIPH",
         "BIPI",
         "BIPJ",
@@ -4415,6 +4433,24 @@
       "report_date": "2026-11-19",
       "accession": "0001171843-26-007581",
       "url": "https://www.sec.gov/Archives/edgar/data/1788348/000117184326007581/f6k_111926.htm",
+      "description": "FORM 6-K",
+      "discovery": true,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
+    {
+      "ticker": "BIP",
+      "tickers": [
+        "BIP"
+      ],
+      "company": "Brookfield Infrastructure Partners Inc.",
+      "form": "6-K",
+      "filed": "2026-11-19",
+      "report_date": "2026-11-19",
+      "accession": "0001171843-26-007581",
+      "url": "https://www.sec.gov/Archives/edgar/data/2155396/000117184326007581/f6k_111926.htm",
       "description": "FORM 6-K",
       "discovery": true,
       "status": "Analyzed",
@@ -7426,6 +7462,24 @@
       "classification": "No rule-based signal"
     },
     {
+      "ticker": "ZOAR",
+      "tickers": [
+        "ZOAR"
+      ],
+      "company": "Zoar Ltd",
+      "form": "6-K",
+      "filed": "2026-11-18",
+      "report_date": "2026-11-18",
+      "accession": "0001493152-26-053003",
+      "url": "https://www.sec.gov/Archives/edgar/data/2078148/000149315226053003/form6-k.htm",
+      "description": "6-K",
+      "discovery": true,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
+    {
       "ticker": "CHRN",
       "tickers": [
         "CHRN"
@@ -8252,7 +8306,8 @@
     {
       "ticker": "ENVX",
       "tickers": [
-        "ENVX"
+        "ENVX",
+        "ENVXW"
       ],
       "company": "Enovix Corp",
       "form": "8-K",
@@ -16272,6 +16327,24 @@
       "classification": "No rule-based signal"
     },
     {
+      "ticker": "CZZL",
+      "tickers": [
+        "CZZL"
+      ],
+      "company": "Cizzle Brands Corp",
+      "form": "6-K",
+      "filed": "2026-11-17",
+      "report_date": "2026-11-17",
+      "accession": "0001104659-26-129075",
+      "url": "https://www.sec.gov/Archives/edgar/data/2105038/000110465926129075/tm2628807d3_6k.htm",
+      "description": "FORM 6-K",
+      "discovery": true,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
+    {
       "ticker": "O",
       "tickers": [
         "O"
@@ -17443,6 +17516,7 @@
       "tickers": [
         "SO",
         "SOJC",
+        "SONN",
         "SOJD",
         "SOJE",
         "SOJF",
@@ -24620,8 +24694,7 @@
     {
       "ticker": "MTRI",
       "tickers": [
-        "MTRI",
-        "INM"
+        "MTRI"
       ],
       "company": "Mentari Therapeutics, Inc.",
       "form": "8-K",
@@ -36456,32 +36529,6 @@
       ],
       "score": -3,
       "classification": "Potential negative"
-    },
-    {
-      "ticker": "ORCL",
-      "tickers": [
-        "ORCL",
-        "ORCL-PD"
-      ],
-      "company": "ORACLE CORP",
-      "form": "8-K",
-      "filed": "2026-09-10",
-      "report_date": "2026-09-10",
-      "accession": "0001193125-26-387905",
-      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-20260910.htm",
-      "description": "8-K",
-      "discovery": false,
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "earnings_results": true,
-      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm",
-      "earnings_readout": {
-        "reported": "GAAP net income available to common shareholders reached $4.7 billion, up 60%, and non-GAAP net income available to common shareholders grew to $5.8 billion, up 34%.",
-        "outlook": "For fiscal year 2027, we now expect total revenue to be at least $90 billion, and non-GAAP EPS to be at $8.10.",
-        "question": "How much of the reported growth came from acquisitions, and how much came from the existing business?"
-      },
-      "classification": "No rule-based signal"
     },
     {
       "ticker": "DELL",
