@@ -1,0 +1,50 @@
+name: Alpaca Market Data Check
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Request the latest AAPL minute bar from IEX
+        env:
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from urllib.error import HTTPError, URLError
+          from urllib.request import Request, urlopen
+
+          for name in ("APCA_API_KEY_ID", "APCA_API_SECRET_KEY"):
+              if not os.environ.get(name):
+                  raise SystemExit(f"Missing GitHub Actions secret: {name}")
+
+          request = Request(
+              "https://data.alpaca.markets/v2/stocks/AAPL/bars/latest?feed=iex",
+              headers={
+                  "APCA-API-KEY-ID": os.environ["APCA_API_KEY_ID"],
+                  "APCA-API-SECRET-KEY": os.environ["APCA_API_SECRET_KEY"],
+              },
+          )
+
+          try:
+              with urlopen(request, timeout=20) as response:
+                  bar = json.load(response).get("bar")
+          except HTTPError as error:
+              raise SystemExit(f"Alpaca returned HTTP {error.code}.")
+          except (URLError, TimeoutError):
+              raise SystemExit("Could not reach Alpaca or the request timed out.")
+
+          if not isinstance(bar, dict) or any(
+              bar.get(field) is None for field in ("t", "c", "v")
+          ):
+              raise SystemExit("Alpaca did not return a complete AAPL bar.")
+
+          print(f"AAPL IEX | {bar['t']} | close ${bar['c']:.2f} | volume {bar['v']}")
+          PY
