@@ -107,7 +107,57 @@ jobs:
               "source_url": "https://www.globenewswire.com/news-release/2026/10/27/3389705/0/en/bellring-brands-announces-timing-of-fourth-quarter-and-fiscal-year-2026-earnings-release-and-conference-call.html",
           }]
           Path("brbr-events.json").write_text(json.dumps(events))
+          news_cutoff = datetime.fromisoformat("2026-11-17T13:40:00-05:00")
+          news_params = {
+              "symbols": "BRBR",
+              "start": "2026-10-27T00:00:00-04:00",
+              "end": news_cutoff.isoformat(),
+              "limit": 50,
+          }
+          recent_news = []
+          earnings_source_found = False
 
+          while True:
+              news_url = "https://data.alpaca.markets/v1beta1/news?"
+              news_request = Request(
+                  news_url + urlencode(news_params), headers=headers
+              )
+              try:
+                  with urlopen(news_request, timeout=30) as response:
+                      news_page = json.load(response)
+              except HTTPError as error:
+                  raise SystemExit(f"Alpaca news returned HTTP {error.code}.")
+
+              for article in news_page.get("news") or []:
+                  published = datetime.fromisoformat(article["created_at"])
+                  updated = datetime.fromisoformat(
+                      article.get("updated_at") or article["created_at"]
+                  )
+                  if published > news_cutoff or updated > news_cutoff:
+                      continue
+
+                  source_url = article.get("url")
+                  if source_url == events[0]["source_url"]:
+                      earnings_source_found = True
+                      events[0]["published_at"] = published.isoformat()
+                  elif published >= news_cutoff - timedelta(days=7):
+                      recent_news.append({
+                          "title": article["headline"],
+                          "published_at": published.isoformat(),
+                          "source_url": source_url,
+                      })
+
+              token = news_page.get("next_page_token")
+              if not token:
+                  break
+              news_params["page_token"] = token
+
+          Path("brbr-events.json").write_text(json.dumps(events))
+          print(f"Original earnings announcement found in Alpaca: "
+                f"{earnings_source_found}", flush=True)
+          print("Recent BRBR news available before the historical alert:",
+                flush=True)
+          print(json.dumps(recent_news, indent=2), flush=True)
           volumes = {}
           with open("brbr-bars.csv", newline="") as bar_file:
               for row in csv.DictReader(bar_file):
