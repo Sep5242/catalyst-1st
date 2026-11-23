@@ -148,12 +148,7 @@ jobs:
                           unescape(re.sub(r"<[^>]+>", " ", article.get(field) or ""))
                           for field in ("summary", "content")
                       )
-                      release = re.search(
-                          r"\b([A-Za-z]+ \d{1,2}, \d{4})\s+at\s+"
-                          r"(\d{1,2}:\d{2})\s*([ap])\.?m\.?\s+(?:ET|EST|EDT)\b",
-                          article_text,
-                          flags=re.IGNORECASE,
-                      )
+                      continue
                       if release is None:
                           print(
                               "Could not read the earnings release time from Alpaca's article."
