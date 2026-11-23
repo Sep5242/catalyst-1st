@@ -154,5 +154,6 @@ jobs:
               "--through", "2026-11-17T16:00:00-05:00",
               "--baseline-sessions", "20",
               "--rvol", "1.3",
+              "--events", "brbr-events.json",
           ], check=True)
           PY
