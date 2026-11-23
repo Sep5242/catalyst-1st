@@ -96,7 +96,57 @@ jobs:
           if test_count < 78 or full_baselines < 20:
               print("Missing IEX bars can make a no-alert result inconclusive.",
                     flush=True)
+          import json
+          from pathlib import Path
+          from statistics import mean
 
+          events = [{
+              "title": "BellRing Q4 and FY2026 earnings and FY2027 outlook",
+              "published_at": "2026-10-27T17:00:00-04:00",
+              "scheduled_at": "2026-11-18T07:00:00-05:00",
+              "source_url": "https://www.globenewswire.com/news-release/2026/10/27/3389705/0/en/bellring-brands-announces-timing-of-fourth-quarter-and-fiscal-year-2026-earnings-release-and-conference-call.html",
+          }]
+          Path("brbr-events.json").write_text(json.dumps(events))
+
+          volumes = {}
+          with open("brbr-bars.csv", newline="") as bar_file:
+              for row in csv.DictReader(bar_file):
+                  bar_end = datetime.fromisoformat(row["bar_end"])
+                  volumes.setdefault(bar_end.date(), {})[bar_end.time()] = int(
+                      row["volume"]
+                  )
+
+          test_day = datetime(2026, 11, 17).date()
+          prior_days = sorted(day for day in volumes if day < test_day)
+          session_open = datetime(2026, 11, 17, 9, 30, tzinfo=eastern)
+
+          print("BRBR cumulative volume progression (ET):", flush=True)
+          for hour, minute in [(10, 30), (12, 0), (13, 0), (13, 40)]:
+              checkpoint = session_open.replace(hour=hour, minute=minute)
+              bar_count = (checkpoint - session_open) // timedelta(minutes=5)
+              bar_times = [
+                  (session_open + timedelta(minutes=5 * index)).time()
+                  for index in range(1, bar_count + 1)
+              ]
+              baseline = [
+                  sum(volumes[day][bar] for bar in bar_times)
+                  for day in prior_days
+                  if all(bar in volumes[day] for bar in bar_times)
+              ][-20:]
+              current = volumes[test_day]
+              label = checkpoint.strftime("%I:%M %p").lstrip("0")
+              if len(baseline) < 20 or not sum(baseline) or any(
+                  bar not in current for bar in bar_times
+              ):
+                  print(f"{label}: insufficient bar coverage", flush=True)
+                  continue
+              total = sum(current[bar] for bar in bar_times)
+              average = mean(baseline)
+              print(
+                  f"{label}: {total:,} shares vs. {average:,.0f} average "
+                  f"({total / average:.3f}x RVOL)",
+                  flush=True,
+              )
           subprocess.run([
               "python3", "replay_early_alert.py", "brbr-bars.csv",
               "--level", "11.00",
