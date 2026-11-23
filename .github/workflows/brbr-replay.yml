@@ -1,0 +1,108 @@
+name: BRBR Early Alert Replay
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Alpaca bars and replay the alert
+        env:
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+        run: |
+          python3 - <<'PY'
+          import csv
+          import json
+          import os
+          import subprocess
+          from collections import Counter
+          from datetime import datetime, timedelta
+          from urllib.error import HTTPError
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+          from zoneinfo import ZoneInfo
+
+          eastern = ZoneInfo("America/New_York")
+          headers = {
+              "APCA-API-KEY-ID": os.environ["APCA_API_KEY_ID"],
+              "APCA-API-SECRET-KEY": os.environ["APCA_API_SECRET_KEY"],
+          }
+
+          def fetch_bars(timeframe, start, end):
+              params = {
+                  "symbols": "BRBR",
+                  "timeframe": timeframe,
+                  "start": start,
+                  "end": end,
+                  "feed": "iex",
+                  "adjustment": "raw",
+                  "limit": 10000,
+              }
+              while True:
+                  url = "https://data.alpaca.markets/v2/stocks/bars?"
+                  request = Request(url + urlencode(params), headers=headers)
+                  try:
+                      with urlopen(request, timeout=30) as response:
+                          page = json.load(response)
+                  except HTTPError as error:
+                      raise SystemExit(f"Alpaca returned HTTP {error.code}.")
+                  yield from (page.get("bars") or {}).get("BRBR", [])
+                  token = page.get("next_page_token")
+                  if not token:
+                      return
+                  params["page_token"] = token
+
+          def local_time(bar):
+              return datetime.fromisoformat(
+                  bar["t"].replace("Z", "+00:00")
+              ).astimezone(eastern)
+
+          daily = list(fetch_bars("1Day", "2026-11-16", "2026-11-21"))
+          if not daily:
+              raise SystemExit("Alpaca returned no BRBR daily bars.")
+          print("Daily IEX bars for checking the gap date:", flush=True)
+          for bar in daily:
+              print(f"{local_time(bar).date()}  Open ${bar['o']:.2f}"
+                    f"  Close ${bar['c']:.2f}", flush=True)
+
+          counts = Counter()
+          with open("brbr-bars.csv", "w", newline="") as output:
+              writer = csv.writer(output)
+              writer.writerow(["bar_end", "close", "volume"])
+              for bar in fetch_bars(
+                  "5Min", "2026-09-01", "2026-11-17T21:00:00Z"
+              ):
+                  start = local_time(bar)
+                  minute = start.hour * 60 + start.minute
+                  if 570 <= minute < 960:
+                      end = start + timedelta(minutes=5)
+                      writer.writerow([end.isoformat(), bar["c"], bar["v"]])
+                      counts[start.date().isoformat()] += 1
+
+          test_count = counts["2026-11-17"]
+          if not test_count:
+              raise SystemExit("No regular-session bars for November 17.")
+          full_baselines = sum(
+              count == 78 for day, count in counts.items() if day < "2026-11-17"
+          )
+          print(f"November 17 coverage: {test_count}/78 bars. "
+                f"Prior sessions with all 78 bars: {full_baselines}.", flush=True)
+          if test_count < 78 or full_baselines < 20:
+              print("Missing IEX bars can make a no-alert result inconclusive.",
+                    flush=True)
+
+          subprocess.run([
+              "python3", "replay_early_alert.py", "brbr-bars.csv",
+              "--level", "11.00",
+              "--from", "2026-11-17T09:30:00-05:00",
+              "--through", "2026-11-17T16:00:00-05:00",
+              "--baseline-sessions", "20",
+              "--rvol", "1.3",
+          ], check=True)
+          PY
