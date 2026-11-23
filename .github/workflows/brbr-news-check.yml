@@ -1,0 +1,67 @@
+name: BRBR Catalyst Source Check
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check BRBR news before the alert
+        env:
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime
+          from urllib.error import HTTPError
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+
+          cutoff = datetime.fromisoformat("2026-11-17T13:40:00-05:00")
+          params = {
+              "symbols": "BRBR",
+              "start": "2026-10-27T00:00:00-04:00",
+              "end": cutoff.isoformat(),
+              "limit": 50,
+          }
+          headers = {
+              "APCA-API-KEY-ID": os.environ["APCA_API_KEY_ID"],
+              "APCA-API-SECRET-KEY": os.environ["APCA_API_SECRET_KEY"],
+          }
+          count = 0
+          skipped_updates = 0
+          while True:
+              url = "https://data.alpaca.markets/v1beta1/news?" + urlencode(params)
+              try:
+                  with urlopen(Request(url, headers=headers), timeout=30) as response:
+                      page = json.load(response)
+              except HTTPError as error:
+                  raise SystemExit(f"Alpaca news request returned HTTP {error.code}.")
+
+              for article in page.get("news") or []:
+                  created = datetime.fromisoformat(article["created_at"])
+                  updated = datetime.fromisoformat(
+                      article.get("updated_at") or article["created_at"]
+                  )
+                  if created > cutoff:
+                      continue
+                  if updated > cutoff:
+                      skipped_updates += 1
+                      continue
+                  count += 1
+                  print(f"{created.isoformat()} | {article['headline']}")
+                  print(article.get("url") or "(no link)")
+
+              token = page.get("next_page_token")
+              if not token:
+                  break
+              params["page_token"] = token
+
+          print(f"Headlines available by the alert: {count}")
+          print(f"Excluded because updated after the alert: {skipped_updates}")
+          PY
