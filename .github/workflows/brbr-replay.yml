@@ -148,7 +148,23 @@ jobs:
                           unescape(re.sub(r"<[^>]+>", " ", article.get(field) or ""))
                           for field in ("summary", "content")
                       )
-                      continue
+                      release_pattern = (
+                          r"\b([A-Za-z]+\s+\d{1,2},\s+\d{4})\s+at\s+"
+                          r"(\d{1,2}:\d{2})\s*([ap])\.?m\.?\s+(?:ET|EST|EDT)\b"
+                      )
+                      release = re.search(release_pattern, article_text, re.IGNORECASE)
+                      if release is None:
+                          try:
+                              with urlopen(events[0]["source_url"], timeout=20) as response:
+                                  source_html = response.read().decode("utf-8", errors="replace")
+                          except OSError as error:
+                              print(f"Original announcement unavailable: {error}")
+                          else:
+                              source_text = unescape(re.sub(r"<[^>]+>", " ", source_html))
+                              source_text = " ".join(source_text.split())
+                              release = re.search(release_pattern, source_text, re.IGNORECASE)
+                              if release is not None:
+                                  print("Release time found in the original announcement.")
                       if release is None:
                           print(
                               "Could not read the earnings release time from Alpaca's article."
