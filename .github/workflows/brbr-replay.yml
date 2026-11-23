@@ -155,9 +155,10 @@ jobs:
                           flags=re.IGNORECASE,
                       )
                       if release is None:
-                          raise SystemExit(
+                          print(
                               "Could not read the earnings release time from Alpaca's article."
                           )
+                          continue
                       date_text, clock_text, period = release.groups()
                       release_time = datetime.strptime(
                           f"{date_text} {clock_text} {period.upper()}M",
