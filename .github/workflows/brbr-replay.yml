@@ -113,6 +113,7 @@ jobs:
               "start": "2026-10-27T00:00:00-04:00",
               "end": news_cutoff.isoformat(),
               "limit": 50,
+              "include_content": "true",
           }
           recent_news = []
           earnings_source_found = False
@@ -140,6 +141,31 @@ jobs:
                   if source_url == events[0]["source_url"]:
                       earnings_source_found = True
                       events[0]["published_at"] = published.isoformat()
+                                            import re
+                      from html import unescape
+
+                      article_text = " ".join(
+                          unescape(re.sub(r"<[^>]+>", " ", article.get(field) or ""))
+                          for field in ("summary", "content")
+                      )
+                      release = re.search(
+                          r"\b([A-Za-z]+ \d{1,2}, \d{4})\s+at\s+"
+                          r"(\d{1,2}:\d{2})\s*([ap])\.?m\.?\s+(?:ET|EST|EDT)\b",
+                          article_text,
+                          flags=re.IGNORECASE,
+                      )
+                      if release is None:
+                          raise SystemExit(
+                              "Could not read the earnings release time from Alpaca's article."
+                          )
+                      date_text, clock_text, period = release.groups()
+                      release_time = datetime.strptime(
+                          f"{date_text} {clock_text} {period.upper()}M",
+                          "%B %d, %Y %I:%M %p",
+                      ).replace(tzinfo=eastern)
+                      events[0]["scheduled_at"] = release_time.isoformat()
+                      print(f"Earnings release extracted: {release_time.isoformat()}",
+                            flush=True)
                   elif published >= news_cutoff - timedelta(days=7):
                       recent_news.append({
                           "title": article["headline"],
