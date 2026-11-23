@@ -155,7 +155,7 @@ jobs:
                       release = re.search(release_pattern, article_text, re.IGNORECASE)
                       if release is None:
                           try:
-                              with urlopen(events[0]["source_url"], timeout=20) as response:
+                              with urlopen("https://bellring.com/news/bellring-brands-announces-timing-fourth-quarter-and-fiscal-year", timeout=20) as response:
                                   source_html = response.read().decode("utf-8", errors="replace")
                           except OSError as error:
                               print(f"Original announcement unavailable: {error}")
