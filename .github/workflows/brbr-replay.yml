@@ -141,7 +141,7 @@ jobs:
                   if source_url == events[0]["source_url"]:
                       earnings_source_found = True
                       events[0]["published_at"] = published.isoformat()
-                                            import re
+                      import re
                       from html import unescape
 
                       article_text = " ".join(
