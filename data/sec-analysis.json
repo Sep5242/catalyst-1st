@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T14:52:33.207340+00:00",
+  "generated_at": "2026-11-23T22:25:50.360327+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -1216,25 +1216,6 @@
       "report_date": "2026-11-20",
       "accession": "0001493152-26-053487",
       "url": "https://www.sec.gov/Archives/edgar/data/1433607/000149315226053487/form8-k.htm",
-      "description": "8-K",
-      "discovery": true,
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "classification": "No rule-based signal"
-    },
-    {
-      "ticker": "SHFS",
-      "tickers": [
-        "SHFS",
-        "SHFSW"
-      ],
-      "company": "SHF Holdings, Inc.",
-      "form": "8-K",
-      "filed": "2026-11-20",
-      "report_date": "2026-11-16",
-      "accession": "0001493152-26-053485",
-      "url": "https://www.sec.gov/Archives/edgar/data/1854963/000149315226053485/form8-k.htm",
       "description": "8-K",
       "discovery": true,
       "status": "Analyzed",
@@ -9650,8 +9631,10 @@
       "classification": "No rule-based signal"
     },
     {
-      "ticker": "BIPH",
+      "ticker": "BIPF-PA",
       "tickers": [
+        "BIPF-PA",
+        "BIPF-PB",
         "BIPH",
         "BIPI",
         "BIPJ",

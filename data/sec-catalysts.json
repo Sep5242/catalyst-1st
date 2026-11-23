@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T14:39:19.435211+00:00",
+  "generated_at": "2026-11-23T22:12:08.952187+00:00",
   "source": "SEC EDGAR daily indexes and public submissions API",
   "scope": "Recent 8-K and 6-K filings from SEC-mapped exchange listings, plus watchlist history",
   "index_dates": [
@@ -872,21 +872,6 @@
       "report_date": "2026-11-20",
       "accession": "0001493152-26-053487",
       "url": "https://www.sec.gov/Archives/edgar/data/1433607/000149315226053487/form8-k.htm",
-      "description": "8-K",
-      "discovery": true
-    },
-    {
-      "ticker": "SHFS",
-      "tickers": [
-        "SHFS",
-        "SHFSW"
-      ],
-      "company": "SHF Holdings, Inc.",
-      "form": "8-K",
-      "filed": "2026-11-20",
-      "report_date": "2026-11-16",
-      "accession": "0001493152-26-053485",
-      "url": "https://www.sec.gov/Archives/edgar/data/1854963/000149315226053485/form8-k.htm",
       "description": "8-K",
       "discovery": true
     },
@@ -7025,8 +7010,10 @@
       "discovery": true
     },
     {
-      "ticker": "BIPH",
+      "ticker": "BIPF-PA",
       "tickers": [
+        "BIPF-PA",
+        "BIPF-PB",
         "BIPH",
         "BIPI",
         "BIPJ",
