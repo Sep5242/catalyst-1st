@@ -8,7 +8,10 @@ on:
         required: true
         default: "AAPL"
         type: string
-
+      watch_price:
+        description: "Watch price in dollars (optional)"
+        required: false
+        type: string
 permissions: {}
 
 jobs:
@@ -19,6 +22,7 @@ jobs:
       - name: Check the latest Alpaca IEX minute bar
         env:
           WATCH_TICKER: ${{ inputs.ticker }}
+          WATCH_PRICE: ${{ inputs.watch_price }}
           APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
           APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
         run: |
@@ -68,4 +72,18 @@ jobs:
           print(f"{ticker} | Alpaca IEX | latest one-minute bar")
           print(f"Bar start: {eastern:%Y-%m-%d %I:%M %p %Z} ({age:.1f} minutes ago)")
           print(f"Close: ${bar['c']:.2f} | Volume: {bar['v']:,} shares")
+          watch_text = os.environ["WATCH_PRICE"].strip()
+          if watch_text:
+              from decimal import Decimal
+
+              if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", watch_text):
+                  raise SystemExit("Enter a positive watch price, such as 350.00.")
+              watch_price = Decimal(watch_text)
+              if watch_price <= 0:
+                  raise SystemExit("Watch price must be greater than zero.")
+
+              close = Decimal(str(bar["c"]))
+              lower = watch_price * Decimal("0.98")
+              status = "IN RANGE" if lower <= close <= watch_price else "OUTSIDE RANGE"
+              print(f"Watch range: ${lower:.2f} to ${watch_price:.2f} | {status}")
           PY
