@@ -1,6 +1,11 @@
 name: Watchlist Monitor
 
 on:
+  schedule:
+    - cron: '37,52 9 * * 1-5'
+      timezone: 'America/New_York'
+    - cron: '7,22,37,52 10-15 * * 1-5'
+      timezone: 'America/New_York'
   workflow_dispatch:
     inputs:
       ticker:
@@ -21,8 +26,8 @@ jobs:
     steps:
       - name: Check the latest Alpaca IEX minute bar
         env:
-          WATCH_TICKER: ${{ inputs.ticker }}
-          WATCH_PRICE: ${{ inputs.watch_price }}
+          WATCH_TICKER: ${{ github.event_name == 'schedule' && vars.MONITOR_TICKER || inputs.ticker }}
+          WATCH_PRICE: ${{ github.event_name == 'schedule' && vars.MONITOR_WATCH_PRICE || inputs.watch_price }}
           APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
           APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
         run: |
