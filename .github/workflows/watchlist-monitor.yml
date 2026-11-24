@@ -90,7 +90,7 @@ jobs:
           from datetime import timedelta
           from statistics import mean
           from urllib.parse import urlencode
-
+          rvol = None
           market_open = eastern.replace(hour=9, minute=30, second=0, microsecond=0)
           market_close = market_open + timedelta(hours=6, minutes=30)
           cutoff = eastern.replace(minute=eastern.minute // 5 * 5, second=0, microsecond=0)
@@ -142,4 +142,10 @@ jobs:
                   rvol = sum(current[slot] for slot in slots) / mean(baseline)
                   result = "MET" if rvol >= 1.30 else "BELOW"
                   print(f"Relative volume through {cutoff:%I:%M %p %Z}: {rvol:.3f}x | 1.30x threshold: {result}")          
-          PY
+          if not watch_text or rvol is None:
+              print("Setup result: NOT EVALUATED")
+          elif status == "IN RANGE" and rvol >= 1.30:
+              print("Setup result: SETUP MET")
+          else:
+              print("Setup result: NOT MET")
+         PY
