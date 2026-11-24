@@ -1,0 +1,71 @@
+name: Watchlist Monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: "Stock ticker to check"
+        required: true
+        default: "AAPL"
+        type: string
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check the latest Alpaca IEX minute bar
+        env:
+          WATCH_TICKER: ${{ inputs.ticker }}
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          from datetime import datetime, timezone
+          from urllib.error import HTTPError, URLError
+          from urllib.request import Request, urlopen
+          from zoneinfo import ZoneInfo
+
+          ticker = os.environ["WATCH_TICKER"].strip().upper()
+          if not re.fullmatch(r"[A-Z][A-Z0-9.-]{0,14}", ticker):
+              raise SystemExit("Enter one stock ticker, such as AAPL.")
+
+          key_id = os.environ["APCA_API_KEY_ID"]
+          secret_key = os.environ["APCA_API_SECRET_KEY"]
+          if not key_id or not secret_key:
+              raise SystemExit("The Alpaca GitHub Actions secrets are missing.")
+
+          request = Request(
+              f"https://data.alpaca.markets/v2/stocks/{ticker}/bars/latest?feed=iex",
+              headers={
+                  "APCA-API-KEY-ID": key_id,
+                  "APCA-API-SECRET-KEY": secret_key,
+              },
+          )
+
+          try:
+              with urlopen(request, timeout=20) as response:
+                  bar = json.load(response).get("bar")
+          except HTTPError as error:
+              raise SystemExit(f"Alpaca returned HTTP {error.code} for {ticker}.")
+          except (URLError, TimeoutError):
+              raise SystemExit("Could not reach Alpaca or the request timed out.")
+
+          if not isinstance(bar, dict) or any(
+              bar.get(field) is None for field in ("t", "c", "v")
+          ):
+              raise SystemExit(f"Alpaca returned no complete IEX bar for {ticker}.")
+
+          bar_start = datetime.fromisoformat(bar["t"].replace("Z", "+00:00"))
+          eastern = bar_start.astimezone(ZoneInfo("America/New_York"))
+          age = (datetime.now(timezone.utc) - bar_start).total_seconds() / 60
+
+          print(f"{ticker} | Alpaca IEX | latest one-minute bar")
+          print(f"Bar start: {eastern:%Y-%m-%d %I:%M %p %Z} ({age:.1f} minutes ago)")
+          print(f"Close: ${bar['c']:.2f} | Volume: {bar['v']:,} shares")
+          PY
