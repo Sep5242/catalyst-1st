@@ -86,4 +86,60 @@ jobs:
               lower = watch_price * Decimal("0.98")
               status = "IN RANGE" if lower <= close <= watch_price else "OUTSIDE RANGE"
               print(f"Watch range: ${lower:.2f} to ${watch_price:.2f} | {status}")
+          from collections import defaultdict
+          from datetime import timedelta
+          from statistics import mean
+          from urllib.parse import urlencode
+
+          market_open = eastern.replace(hour=9, minute=30, second=0, microsecond=0)
+          market_close = market_open + timedelta(hours=6, minutes=30)
+          cutoff = eastern.replace(minute=eastern.minute // 5 * 5, second=0, microsecond=0)
+
+          if not market_open < cutoff <= market_close:
+              print("Relative volume: waiting for a completed regular-session five-minute bar.")
+          else:
+              params = {
+                  "symbols": ticker,
+                  "timeframe": "5Min",
+                  "start": (market_open - timedelta(days=77)).isoformat(),
+                  "end": cutoff.isoformat(),
+                  "feed": "iex",
+                  "adjustment": "raw",
+                  "limit": 10000,
+              }
+              volumes = defaultdict(dict)
+              while True:
+                  history_request = Request(
+                      "https://data.alpaca.markets/v2/stocks/bars?" + urlencode(params),
+                      headers=dict(request.header_items()),
+                  )
+                  with urlopen(history_request, timeout=20) as response:
+                      page = json.load(response)
+                  for item in (page.get("bars") or {}).get(ticker, []):
+                      local = datetime.fromisoformat(
+                          item["t"].replace("Z", "+00:00")
+                      ).astimezone(eastern.tzinfo)
+                      volumes[local.date()][local.time()] = item["v"]
+                  token = page.get("next_page_token")
+                  if not token:
+                      break
+                  params["page_token"] = token
+
+              slots = [
+                  (market_open + timedelta(minutes=minute)).time()
+                  for minute in range(0, int((cutoff - market_open).total_seconds() // 60), 5)
+              ]
+              current = volumes[cutoff.date()]
+              baseline = [
+                  sum(volumes[day][slot] for slot in slots)
+                  for day in sorted(volumes)
+                  if day < cutoff.date() and all(slot in volumes[day] for slot in slots)
+              ][-20:]
+
+              if len(baseline) < 20 or not sum(baseline) or not all(slot in current for slot in slots):
+                  print("Relative volume: insufficient IEX bar coverage for this comparison.")
+              else:
+                  rvol = sum(current[slot] for slot in slots) / mean(baseline)
+                  result = "MET" if rvol >= 1.30 else "BELOW"
+                  print(f"Relative volume through {cutoff:%I:%M %p %Z}: {rvol:.3f}x | 1.30x threshold: {result}")          
           PY
