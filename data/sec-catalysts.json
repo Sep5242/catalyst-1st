@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T14:35:10.574811+00:00",
+  "generated_at": "2026-11-24T22:17:57.047249+00:00",
   "source": "SEC EDGAR daily indexes and public submissions API",
   "scope": "Recent 8-K and 6-K filings from SEC-mapped exchange listings, plus watchlist history",
   "index_dates": [
@@ -10,6 +10,20 @@
     "2026-11-17"
   ],
   "filings": [
+    {
+      "ticker": "DELL",
+      "tickers": [
+        "DELL"
+      ],
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-11-24",
+      "report_date": "2026-11-24",
+      "accession": "0001571996-26-000050",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000050/dell-20261124.htm",
+      "description": "8-K",
+      "discovery": false
+    },
     {
       "ticker": "CDLR",
       "tickers": [
@@ -19443,7 +19457,7 @@
       "tickers": [
         "GRDX"
       ],
-      "company": "GridAI Technologies Corp.",
+      "company": "GridAI Power Corp.",
       "form": "8-K",
       "filed": "2026-11-17",
       "report_date": "2026-11-12",
@@ -21144,20 +21158,6 @@
       "report_date": "2026-09-08",
       "accession": "0000731766-26-000205",
       "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176626000205/unh-20260908.htm",
-      "description": "8-K",
-      "discovery": false
-    },
-    {
-      "ticker": "DELL",
-      "tickers": [
-        "DELL"
-      ],
-      "company": "Dell Technologies Inc.",
-      "form": "8-K",
-      "filed": "2026-09-01",
-      "report_date": "2026-09-01",
-      "accession": "0001571996-26-000039",
-      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000039/dell-20260901.htm",
       "description": "8-K",
       "discovery": false
     },

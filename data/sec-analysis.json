@@ -1,8 +1,33 @@
 {
-  "generated_at": "2026-11-24T14:46:59.470857+00:00",
+  "generated_at": "2026-11-24T22:28:19.174670+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
+    {
+      "ticker": "DELL",
+      "tickers": [
+        "DELL"
+      ],
+      "company": "Dell Technologies Inc.",
+      "form": "8-K",
+      "filed": "2026-11-24",
+      "report_date": "2026-11-24",
+      "accession": "0001571996-26-000050",
+      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000050/dell-20261124.htm",
+      "description": "8-K",
+      "discovery": false,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000050/exhibit991earnings8kq3fy27.htm",
+      "earnings_readout": {
+        "reported": "",
+        "outlook": "We expect record full-year revenue of $202 billion , up 78%.",
+        "question": "How much of the reported growth came from acquisitions, and how much came from the existing business?"
+      },
+      "classification": "No rule-based signal"
+    },
     {
       "ticker": "CDLR",
       "tickers": [
@@ -26610,7 +26635,7 @@
       "tickers": [
         "GRDX"
       ],
-      "company": "GridAI Technologies Corp.",
+      "company": "GridAI Power Corp.",
       "form": "8-K",
       "filed": "2026-11-17",
       "report_date": "2026-11-12",
@@ -28975,31 +29000,6 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
-      "classification": "No rule-based signal"
-    },
-    {
-      "ticker": "DELL",
-      "tickers": [
-        "DELL"
-      ],
-      "company": "Dell Technologies Inc.",
-      "form": "8-K",
-      "filed": "2026-09-01",
-      "report_date": "2026-09-01",
-      "accession": "0001571996-26-000039",
-      "url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000039/dell-20260901.htm",
-      "description": "8-K",
-      "discovery": false,
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "earnings_results": true,
-      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000039/exhibit991earnings8kq2fy27.htm",
-      "earnings_readout": {
-        "reported": "",
-        "outlook": "ROUND ROCK, Texas \u2014 Sept. 1, 2026 \u2014 Dell Technologies (NYSE: DELL) announces financial results for its fiscal 2027 second quarter and provides guidance for its fiscal 2027 third quarter and full year.",
-        "question": "How much of the reported growth came from acquisitions, and how much came from the existing business?"
-      },
       "classification": "No rule-based signal"
     },
     {
