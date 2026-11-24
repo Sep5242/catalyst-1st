@@ -1,6 +1,23 @@
 name: BRBR Early Alert Replay
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: "Stock ticker"
+        required: true
+        default: "BRBR"
+        type: string
+      replay_date:
+        description: "Replay date (YYYY-MM-DD)"
+        required: true
+        default: "2026-11-17"
+        type: string
+      watch_price:
+        description: "Watch price in dollars"
+        required: true
+        default: "11.00"
+        type: string
 
 permissions:
   contents: read
@@ -13,6 +30,9 @@ jobs:
 
       - name: Fetch Alpaca bars and replay the alert
         env:
+          REPLAY_TICKER: ${{ inputs.ticker }}
+          REPLAY_DATE: ${{ inputs.replay_date }}
+          REPLAY_WATCH_PRICE: ${{ inputs.watch_price }}
           APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
           APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
         run: |
@@ -20,6 +40,9 @@ jobs:
           import csv
           import json
           import os
+          ticker = os.environ["REPLAY_TICKER"].strip().upper()
+          replay_date = os.environ["REPLAY_DATE"]
+          watch_price = os.environ["REPLAY_WATCH_PRICE"]
           import subprocess
           from collections import Counter
           from datetime import datetime, timedelta
@@ -36,7 +59,7 @@ jobs:
 
           def fetch_bars(timeframe, start, end):
               params = {
-                  "symbols": "BRBR",
+                  "symbols": ticker,
                   "timeframe": timeframe,
                   "start": start,
                   "end": end,
@@ -52,7 +75,7 @@ jobs:
                           page = json.load(response)
                   except HTTPError as error:
                       raise SystemExit(f"Alpaca returned HTTP {error.code}.")
-                  yield from (page.get("bars") or {}).get("BRBR", [])
+                  yield from (page.get("bars") or {}).get(ticker, [])
                   token = page.get("next_page_token")
                   if not token:
                       return
@@ -63,7 +86,10 @@ jobs:
                   bar["t"].replace("Z", "+00:00")
               ).astimezone(eastern)
 
-          daily = list(fetch_bars("1Day", "2026-11-16", "2026-11-21"))
+          replay_day = datetime.strptime(replay_date, "%Y-%m-%d").date()
+          daily_start = (replay_day - timedelta(days=1)).isoformat()
+          daily_end = (replay_day + timedelta(days=4)).isoformat()
+          daily = list(fetch_bars("1Day", daily_start, daily_end))
           if not daily:
               raise SystemExit("Alpaca returned no BRBR daily bars.")
           print("Daily IEX bars for checking the gap date:", flush=True)
@@ -76,7 +102,7 @@ jobs:
               writer = csv.writer(output)
               writer.writerow(["bar_end", "close", "volume"])
               for bar in fetch_bars(
-                  "5Min", "2026-09-01", "2026-11-17T21:00:00Z"
+                  "5Min", (replay_day - timedelta(days=77)).isoformat(), datetime.fromisoformat(replay_date).replace(hour=16, tzinfo=eastern).isoformat()
               ):
                   start = local_time(bar)
                   minute = start.hour * 60 + start.minute
@@ -85,13 +111,13 @@ jobs:
                       writer.writerow([end.isoformat(), bar["c"], bar["v"]])
                       counts[start.date().isoformat()] += 1
 
-          test_count = counts["2026-11-17"]
+          test_count = counts[replay_day.isoformat()]
           if not test_count:
-              raise SystemExit("No regular-session bars for November 17.")
+              raise SystemExit(f"No regular-session bars for {ticker} on {replay_date}.")
           full_baselines = sum(
-              count == 78 for day, count in counts.items() if day < "2026-11-17"
+              count == 78 for day, count in counts.items() if day < replay_date
           )
-          print(f"November 17 coverage: {test_count}/78 bars. "
+          print(f"{ticker} {replay_date} coverage: {test_count}/78 bars. "
                 f"Prior sessions with all 78 bars: {full_baselines}.", flush=True)
           if test_count < 78 or full_baselines < 20:
               print("Missing IEX bars can make a no-alert result inconclusive.",
@@ -105,12 +131,12 @@ jobs:
               "published_at": "2026-10-27T17:00:00-04:00",
               "scheduled_at": "2026-11-18T07:00:00-05:00",
               "source_url": "https://www.globenewswire.com/news-release/2026/10/27/3389705/0/en/bellring-brands-announces-timing-of-fourth-quarter-and-fiscal-year-2026-earnings-release-and-conference-call.html",
-          }]
+          }] if ticker == "BRBR" else []
           Path("brbr-events.json").write_text(json.dumps(events))
-          news_cutoff = datetime.fromisoformat("2026-11-17T13:40:00-05:00")
+          news_cutoff = datetime.fromisoformat(replay_date).replace(hour=13, minute=40, tzinfo=eastern)
           news_params = {
-              "symbols": "BRBR",
-              "start": "2026-10-27T00:00:00-04:00",
+              "symbols": ticker,
+              "start": (news_cutoff - timedelta(days=21)).replace(hour=0,                    minute=0).isoformat(),
               "end": news_cutoff.isoformat(),
               "limit": 50,
               "include_content": "true",
@@ -138,7 +164,7 @@ jobs:
                       continue
 
                   source_url = article.get("url")
-                  if source_url == events[0]["source_url"]:
+                  if events and source_url == events[0]["source_url"]:
                       earnings_source_found = True
                       events[0]["published_at"] = published.isoformat()
                       import re
@@ -204,9 +230,9 @@ jobs:
                       row["volume"]
                   )
 
-          test_day = datetime(2026, 11, 17).date()
+          test_day = replay_day
           prior_days = sorted(day for day in volumes if day < test_day)
-          session_open = datetime(2026, 11, 17, 9, 30, tzinfo=eastern)
+          session_open = news_cutoff.replace(hour=9, minute=30)
 
           print("BRBR cumulative volume progression (ET):", flush=True)
           for hour, minute in [(10, 30), (12, 0), (13, 0), (13, 40)]:
@@ -237,9 +263,9 @@ jobs:
               )
           subprocess.run([
               "python3", "replay_early_alert.py", "brbr-bars.csv",
-              "--level", "11.00",
-              "--from", "2026-11-17T09:30:00-05:00",
-              "--through", "2026-11-17T16:00:00-05:00",
+              "--level", watch_price,
+              "--from", session_open.isoformat(),
+              "--through", session_open.replace(hour=16, minute=0).isoformat(),
               "--baseline-sessions", "20",
               "--rvol", "1.3",
               "--events", "brbr-events.json",
