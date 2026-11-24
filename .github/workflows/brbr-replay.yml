@@ -91,7 +91,7 @@ jobs:
           daily_end = (replay_day + timedelta(days=4)).isoformat()
           daily = list(fetch_bars("1Day", daily_start, daily_end))
           if not daily:
-              raise SystemExit("Alpaca returned no BRBR daily bars.")
+              raise SystemExit(f"Alpaca returned no daily bars for {ticker}.")
           print("Daily IEX bars for checking the gap date:", flush=True)
           for bar in daily:
               print(f"{local_time(bar).date()}  Open ${bar['o']:.2f}"
@@ -219,7 +219,7 @@ jobs:
           Path("brbr-events.json").write_text(json.dumps(events))
           print(f"Original earnings announcement found in Alpaca: "
                 f"{earnings_source_found}", flush=True)
-          print("Recent BRBR news available before the historical alert:",
+          print(f"Recent {ticker} news available by the replay news cutoff:",
                 flush=True)
           print(json.dumps(recent_news, indent=2), flush=True)
           volumes = {}
@@ -234,7 +234,7 @@ jobs:
           prior_days = sorted(day for day in volumes if day < test_day)
           session_open = news_cutoff.replace(hour=9, minute=30)
 
-          print("BRBR cumulative volume progression (ET):", flush=True)
+          print(f"{ticker} cumulative volume progression (ET):", flush=True)
           for hour, minute in [(10, 30), (12, 0), (13, 0), (13, 40)]:
               checkpoint = session_open.replace(hour=hour, minute=minute)
               bar_count = (checkpoint - session_open) // timedelta(minutes=5)
