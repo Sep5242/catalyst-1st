@@ -1,0 +1,53 @@
+name: Catalyst 1st Email Test
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  send-test-email:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send one test email through iCloud
+        env:
+          ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+          ALERT_SMTP_USERNAME: ${{ secrets.ALERT_SMTP_USERNAME }}
+          ALERT_SMTP_PASSWORD: ${{ secrets.ALERT_SMTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import smtplib
+          import ssl
+          from email.message import EmailMessage
+
+          recipient = os.environ["ALERT_EMAIL_TO"].strip()
+          sender = os.environ["ALERT_SMTP_USERNAME"].strip()
+          password = os.environ["ALERT_SMTP_PASSWORD"].strip()
+
+          if not all((recipient, sender, password)):
+              raise SystemExit("One or more required email secrets are missing.")
+
+          message = EmailMessage()
+          message["From"] = sender
+          message["To"] = recipient
+          message["Subject"] = "Catalyst 1st email delivery test"
+          message.set_content(
+              "This is a manual delivery test from Catalyst 1st.\n\n"
+              "Example from the November 25 AAPL pilot: SETUP MET.\n"
+              "Price: $353.25. Relative volume: 1.626x.\n"
+          )
+
+          try:
+              with smtplib.SMTP("smtp.mail.me.com", 587, timeout=25) as smtp:
+                  smtp.starttls(context=ssl.create_default_context())
+                  smtp.login(sender, password)
+                  smtp.send_message(message)
+          except smtplib.SMTPResponseException as error:
+              raise SystemExit(f"iCloud SMTP returned status {error.smtp_code}.")
+          except (smtplib.SMTPException, OSError) as error:
+              raise SystemExit(f"Email delivery failed ({type(error).__name__}).")
+
+          print("iCloud accepted the test email for delivery.")
+          PY
