@@ -142,6 +142,84 @@ OFFERING_DISCLAIMER = re.compile(
 )
 
 
+def financing_event_readout(prose):
+    """Summarize financing events supported by the filing text."""
+    equity = re.search(
+        r"\b(?:private placement|private investment in public equity)\b"
+        r"[^;!?]{0,160}?\b(?:common stock|ordinary shares)\b"
+        r"[^;!?]{0,160}?\b(?:aggregate purchase price|gross proceeds)\s+of\s+"
+        r"(?P<amount>(?:approximately\s+)?\$[\d,]+(?:\.\d+)?"
+        r"(?:\s+(?:million|billion))?)",
+        prose, re.I,
+    )
+    if equity:
+        return {
+            "label": "Equity financing",
+            "priority": "High",
+            "what_changed": (
+                f"The filing describes a private equity placement of {equity['amount']}."
+            ),
+            "why_it_matters": (
+                "The financing can add cash and increase the share count."
+            ),
+            "what_to_check": (
+                "Verify the price per share, number of shares, closing status, "
+                "and post-deal share count."
+            ),
+            "evidence": equity[0],
+        }
+
+    debt = re.search(
+        r"\b(?:completed|closed|priced|announced)\s+"
+        r"(?:the|a|an|its)\s+(?:registered\s+)?(?:public\s+)?offering\b"
+        r"[^;!?]{0,220}?\b(?:senior(?:\s+(?:unsecured|secured|subordinated))?"
+        r"\s+notes|unsecured notes|secured notes)\b"
+        r"(?:\s+due\s+20\d{2})?",
+        prose, re.I,
+    )
+    if debt:
+        return {
+            "label": "Debt financing",
+            "priority": "Medium",
+            "what_changed": (
+                "The filing describes a debt offering involving notes."
+            ),
+            "why_it_matters": (
+                "The terms can affect interest expense and repayment timing."
+            ),
+            "what_to_check": (
+                "Verify the full offering size, interest rates, maturities, "
+                "closing status, and use of proceeds."
+            ),
+            "evidence": debt[0],
+        }
+
+    extension = re.search(
+        r"\bsponsor of (?:the )?initial public offering\b"
+        r"[^;.!?]{0,230}?\bdeposited (?:an? )?extension payment of\s+"
+        r"(?P<amount>\$[\d,]+(?:\.\d+)?)\s+into the trust account\b",
+        prose, re.I,
+    )
+    if extension:
+        return {
+            "label": "SPAC deadline extension",
+            "priority": "Low",
+            "what_changed": (
+                f"The SPAC sponsor deposited {extension['amount']} "
+                "into the trust account as an extension payment."
+            ),
+            "why_it_matters": (
+                "The payment buys more time for the SPAC to complete a deal."
+            ),
+            "what_to_check": (
+                "Verify the revised deadline and any scheduled shareholder vote."
+            ),
+            "evidence": extension[0],
+        }
+
+    return None
+
+
 def analyze(filing):
     result = dict(filing)
     result["status"] = "Analyzed"
@@ -151,6 +229,10 @@ def analyze(filing):
         html = fetch_html(filing["url"])
         prose = " ".join(plain_text(html).split())
         text = prose.lower()
+        if filing.get("form") in {"8-K", "8-K/A", "6-K", "6-K/A"}:
+            event = financing_event_readout(prose)
+            if event:
+                result["financing_event"] = event
         if filing.get("form") in {"8-K", "8-K/A"}:
             financing = private_financing_readout(prose)
             if financing:
