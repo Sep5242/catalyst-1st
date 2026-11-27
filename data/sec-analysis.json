@@ -1,8 +1,28 @@
 {
-  "generated_at": "2026-11-27T20:48:03.401237+00:00",
+  "generated_at": "2026-11-27T22:27:27.647029+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
+    {
+      "ticker": "C",
+      "tickers": [
+        "C",
+        "C-PN",
+        "C-PR"
+      ],
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-11-27",
+      "report_date": "2026-11-27",
+      "accession": "0001193125-26-480258",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526480258/d227861d8k.htm",
+      "description": "8-K",
+      "discovery": false,
+      "status": "Analyzed",
+      "signals": [],
+      "score": 0,
+      "classification": "No rule-based signal"
+    },
     {
       "ticker": "TMS",
       "tickers": [
@@ -21578,26 +21598,6 @@
       "report_date": "2026-10-02",
       "accession": "0001493152-26-045534",
       "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226045534/form8-k.htm",
-      "description": "8-K",
-      "discovery": false,
-      "status": "Analyzed",
-      "signals": [],
-      "score": 0,
-      "classification": "No rule-based signal"
-    },
-    {
-      "ticker": "C",
-      "tickers": [
-        "C",
-        "C-PN",
-        "C-PR"
-      ],
-      "company": "CITIGROUP INC",
-      "form": "8-K",
-      "filed": "2026-09-24",
-      "report_date": "2026-09-17",
-      "accession": "0001193125-26-401022",
-      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526401022/d155919d8k.htm",
       "description": "8-K",
       "discovery": false,
       "status": "Analyzed",

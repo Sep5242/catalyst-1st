@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T20:39:51.695249+00:00",
+  "generated_at": "2026-11-27T22:16:40.480372+00:00",
   "source": "SEC EDGAR daily indexes and public submissions API",
   "scope": "Recent 8-K and 6-K filings from SEC-mapped exchange listings, plus watchlist history",
   "index_dates": [
@@ -9,6 +9,22 @@
     "2026-11-20"
   ],
   "filings": [
+    {
+      "ticker": "C",
+      "tickers": [
+        "C",
+        "C-PN",
+        "C-PR"
+      ],
+      "company": "CITIGROUP INC",
+      "form": "8-K",
+      "filed": "2026-11-27",
+      "report_date": "2026-11-27",
+      "accession": "0001193125-26-480258",
+      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526480258/d227861d8k.htm",
+      "description": "8-K",
+      "discovery": false
+    },
     {
       "ticker": "TMS",
       "tickers": [
@@ -15765,22 +15781,6 @@
       "report_date": "2026-10-02",
       "accession": "0001493152-26-045534",
       "url": "https://www.sec.gov/Archives/edgar/data/1923891/000149315226045534/form8-k.htm",
-      "description": "8-K",
-      "discovery": false
-    },
-    {
-      "ticker": "C",
-      "tickers": [
-        "C",
-        "C-PN",
-        "C-PR"
-      ],
-      "company": "CITIGROUP INC",
-      "form": "8-K",
-      "filed": "2026-09-24",
-      "report_date": "2026-09-17",
-      "accession": "0001193125-26-401022",
-      "url": "https://www.sec.gov/Archives/edgar/data/831001/000119312526401022/d155919d8k.htm",
       "description": "8-K",
       "discovery": false
     },
