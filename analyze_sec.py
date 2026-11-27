@@ -44,7 +44,7 @@ def plain_text(text):
 def earnings_release_url(html, filing_url):
     for row in re.findall(r"<tr\b[^>]*>(.*?)</tr>", html, re.I | re.S):
         cells = re.findall(r"<td\b[^>]*>(.*?)</td>", row, re.I | re.S)
-        if len(cells) < 2 or plain_text(cells[0]).strip() != "99.1":
+        if len(cells) < 2 or plain_text(cells[0]).strip().rstrip("*").rstrip() != "99.1":
             continue
         for anchor in re.finditer(r"""<a\b[^>]*?\bhref\s*=\s*(["'])(.*?)\1[^>]*>(.*?)</a>""", row, re.I | re.S):
             if not re.search(r"press release|earnings release", plain_text(anchor[3]), re.I):
@@ -142,6 +142,45 @@ OFFERING_DISCLAIMER = re.compile(
 )
 
 
+def financing_share_details(filing_text, release_text=""):
+    number = r"\d[\d,]*(?:\.\d+)?(?:\s+(?:million|billion))?"
+    combined = re.search(
+        rf"\bissued an aggregate of (?P<count>{number}) shares\b"
+        r"[^.!?;]{0,160}\bstockholders and the investors in the concurrent financing\b",
+        filing_text, re.I,
+    )
+    ownership = re.search(
+        r"\bon a fully diluted basis\b(?:[^.!?;]|\.(?=\d)){0,700}?"
+        r"\b(?:the investors in the concurrent financing|private placement investors)"
+        r"\s+owned(?:,\s+in the aggregate,)?\s+(?:approximately\s+)?"
+        r"(?P<percent>\d+(?:\.\d+)?)%",
+        filing_text, re.I,
+    )
+    outstanding = re.search(
+        rf"\bthe combined company had (?:approximately\s+)?(?P<count>{number})"
+        r"\s+shares of common stock issued and outstanding\b",
+        release_text, re.I,
+    )
+
+    details = []
+    if outstanding:
+        details.append(
+            f"Common shares outstanding after closing: {outstanding['count']}."
+        )
+    if ownership:
+        details.append(
+            f"Placement investors held about {ownership['percent']}% "
+            "on a fully diluted basis."
+        )
+    if combined:
+        details.append(
+            f"The 8-K reports {combined['count']} shares issued to existing "
+            "shareholders and placement investors combined. That figure does "
+            "not isolate the placement share count."
+        )
+    return " ".join(details)
+
+
 def financing_event_readout(prose):
     """Summarize financing events supported by the filing text."""
     equity = re.search(
@@ -232,6 +271,20 @@ def analyze(filing):
         if filing.get("form") in {"8-K", "8-K/A", "6-K", "6-K/A"}:
             event = financing_event_readout(prose)
             if event:
+                if event["label"] == "Equity financing":
+                    release_text = ""
+                    release_url = earnings_release_url(html, filing["url"])
+                    if release_url:
+                        try:
+                            time.sleep(0.3)
+                            release_text = " ".join(
+                                plain_text(fetch_html(release_url)).split()
+                            )
+                        except (OSError, ValueError):
+                            pass
+                    share_details = financing_share_details(prose, release_text)
+                    if share_details:
+                        event["what_changed"] += " " + share_details
                 result["financing_event"] = event
         if filing.get("form") in {"8-K", "8-K/A"}:
             financing = private_financing_readout(prose)
