@@ -39,7 +39,22 @@ def discover(by_cik, today, errors):
     # EDGAR publishes daily indexes after the filing day closes.
     for offset in range(1, 8):
         date = today - timedelta(days=offset)
-        if date.weekday() >=5:
+        weekday = date.weekday()
+        fixed_holidays = {(1, 1), (6, 19), (7, 4), (11, 11), (12, 25)}
+        # Saturday holidays are observed Friday; Sunday holidays, Monday.
+        observed_date = date + timedelta(days={0: -1, 4: 1}.get(weekday, 0))
+        fixed_holiday = (
+            (date.month, date.day) in fixed_holidays
+            or (observed_date.month, observed_date.day) in fixed_holidays
+        )
+        floating_holiday = any(
+            date.month == month and weekday == day and first <= date.day <= last
+            for month, day, first, last in (
+                (1, 0, 15, 21), (2, 0, 15, 21), (5, 0, 25, 31),
+                (9, 0, 1, 7), (10, 0, 8, 14), (11, 3, 22, 28),
+            )
+        )
+        if weekday >= 5 or fixed_holiday or floating_holiday:
             continue
         quarter = (date.month - 1) // 3 + 1
         url = f'{SEC}/Archives/edgar/daily-index/{date.year}/QTR{quarter}/master.{date:%Y%m%d}.idx'
