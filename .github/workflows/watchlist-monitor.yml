@@ -169,6 +169,8 @@ jobs:
                           f"ALERT_TICKER={ticker}\n"
                           f"ALERT_CLOSE={close:.2f}\n"
                           f"ALERT_RVOL={rvol:.3f}\n"
+                          f"ALERT_SESSION_VOLUME={session_volume}\n"
+                          f"ALERT_VOLUME_CUTOFF={cutoff:%I:%M %p %Z}\n"
                           f"ALERT_BAR_TIME={eastern:%Y-%m-%d %I:%M %p %Z}\n"
                       )
           else:
@@ -183,6 +185,8 @@ jobs:
           ALERT_TICKER=AAPL
           ALERT_CLOSE=100.00
           ALERT_RVOL=1.500
+          ALERT_SESSION_VOLUME=150000
+          ALERT_VOLUME_CUTOFF=10:30 AM Eastern (sample)
           ALERT_BAR_TIME=Sample data
           EOF
 
@@ -221,7 +225,9 @@ jobs:
               f"{intro}\n"
               f"IEX bar time: {os.environ['ALERT_BAR_TIME']}\n"
               f"Close: ${os.environ['ALERT_CLOSE']}\n"
-              f"Relative volume: {os.environ['ALERT_RVOL']}x\n"
+              f"IEX shares traded from market open through {os.environ['ALERT_VOLUME_CUTOFF']}: "
+              f"{int(os.environ['ALERT_SESSION_VOLUME']):,}\n"
+              f"IEX relative volume through the same time: {os.environ['ALERT_RVOL']}x\n"
               f"Run: {os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}"
               f"/actions/runs/{os.environ['GITHUB_RUN_ID']}\n"
           )
