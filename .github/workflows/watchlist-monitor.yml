@@ -153,7 +153,9 @@ jobs:
               if len(baseline) < 20 or not sum(baseline) or not all(slot in current for slot in slots):
                   print("Relative volume: insufficient IEX bar coverage for this comparison.")
               else:
-                  rvol = sum(current[slot] for slot in slots) / mean(baseline)
+                  session_volume = sum(current[slot] for slot in slots)
+                  print(f"IEX shares traded from market open through {cutoff:%I:%M %p %Z}: {session_volume:,}")
+                  rvol = session_volume / mean(baseline)
                   result = "MET" if rvol >= 1.30 else "BELOW"
                   print(f"Relative volume through {cutoff:%I:%M %p %Z}: {rvol:.3f}x | 1.30x threshold: {result}")
 
