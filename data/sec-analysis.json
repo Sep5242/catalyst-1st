@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T17:06:27.649748+00:00",
+  "generated_at": "2026-11-27T18:57:30.440828+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -1010,6 +1010,14 @@
         }
       ],
       "score": -3,
+      "financing_event": {
+        "label": "SPAC deadline extension",
+        "priority": "Low",
+        "what_changed": "The SPAC sponsor deposited $28,558 into the trust account as an extension payment.",
+        "why_it_matters": "The payment buys more time for the SPAC to complete a deal.",
+        "what_to_check": "Verify the revised deadline and any scheduled shareholder vote.",
+        "evidence": "sponsor of the initial public offering of DT Cloud Star Acquisition Corporation (the \u201cCompany\u201d), deposited extension payment of $28,558 into the trust account"
+      },
       "classification": "Potential negative"
     },
     {
@@ -3199,6 +3207,14 @@
         }
       ],
       "score": -3,
+      "financing_event": {
+        "label": "Debt financing",
+        "priority": "Medium",
+        "what_changed": "The filing describes a debt offering involving notes.",
+        "why_it_matters": "The terms can affect interest expense and repayment timing.",
+        "what_to_check": "Verify the full offering size, interest rates, maturities, closing status, and use of proceeds.",
+        "evidence": "completed a registered public offering of \u20ac600.0 million aggregate principal amount of its 4.200% senior unsecured notes due 2031"
+      },
       "classification": "Potential negative"
     },
     {
@@ -3239,6 +3255,14 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "financing_event": {
+        "label": "Equity financing",
+        "priority": "High",
+        "what_changed": "The filing describes a private equity placement of $215.0 million.",
+        "why_it_matters": "The financing can add cash and increase the share count.",
+        "what_to_check": "Verify the price per share, number of shares, closing status, and post-deal share count.",
+        "evidence": "private placement of Avenzo Class A common stock, par value $0.0001 per share, for an aggregate purchase price of $215.0 million"
+      },
       "private_financing": {
         "item": "1.01",
         "excerpt": "entered into indemnification agreements with each of its new directors and executive officers. Each indemnification agreement provides for indemnification and advancement by the Company of certain expenses and costs relating to claims, suits or proceedings arising from each individual\u2019s service to the Company as an officer or director, as applicable, to the maximum extent permitted by applicable law. The foregoing description of the indemnification agreements is qualified in its entirety by reference to the full text of the form of indemnification agreement, which is incorporated herein by reference as Exhibit 10.1. Registration Rights Agreement In connection with the Merger and the concurrent private placement of Avenzo Class A common stock, par value $0.0001 per share, for an aggregate purchase price of $215.0 million"
@@ -6965,6 +6989,14 @@
         }
       ],
       "score": -3,
+      "financing_event": {
+        "label": "Debt financing",
+        "priority": "Medium",
+        "what_changed": "The filing describes a debt offering involving notes.",
+        "why_it_matters": "The terms can affect interest expense and repayment timing.",
+        "what_to_check": "Verify the full offering size, interest rates, maturities, closing status, and use of proceeds.",
+        "evidence": "completed the public offering (the \u201cOffering\u201d) of $430,000,000 aggregate principal amount of 6.250% Senior Notes due 2033"
+      },
       "classification": "Potential negative"
     },
     {
@@ -8161,6 +8193,14 @@
         }
       ],
       "score": -3,
+      "financing_event": {
+        "label": "Debt financing",
+        "priority": "Medium",
+        "what_changed": "The filing describes a debt offering involving notes.",
+        "why_it_matters": "The terms can affect interest expense and repayment timing.",
+        "what_to_check": "Verify the full offering size, interest rates, maturities, closing status, and use of proceeds.",
+        "evidence": "completed an offering of $1.5 billion, in the aggregate, of its senior notes"
+      },
       "classification": "Potential negative"
     },
     {
@@ -9977,6 +10017,14 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "financing_event": {
+        "label": "Debt financing",
+        "priority": "Medium",
+        "what_changed": "The filing describes a debt offering involving notes.",
+        "why_it_matters": "The terms can affect interest expense and repayment timing.",
+        "what_to_check": "Verify the full offering size, interest rates, maturities, closing status, and use of proceeds.",
+        "evidence": "priced an offering of $900,000,000 aggregate principal amount of its 7.500% Senior Notes due 2033"
+      },
       "classification": "No rule-based signal"
     },
     {
@@ -12152,6 +12200,14 @@
       "status": "Analyzed",
       "signals": [],
       "score": 0,
+      "financing_event": {
+        "label": "Equity financing",
+        "priority": "High",
+        "what_changed": "The filing describes a private equity placement of $100,000.",
+        "why_it_matters": "The financing can add cash and increase the share count.",
+        "what_to_check": "Verify the price per share, number of shares, closing status, and post-deal share count.",
+        "evidence": "Private Placement\u201d), (i) 55,249 shares of the Company\u2019s common stock, par value $0.0001 per share (the \u201cShares\u201d), and (ii) a common stock purchase warrant (the \u201cCommon Warrant\u201d) to purchase 55,249 shares of common stock (the \u201cWarrant Shares\u201d), for an aggregate purchase price of $100,000"
+      },
       "private_financing": {
         "item": "1.01",
         "excerpt": "entered into a Securities Purchase Agreement (the \u201cPurchase Agreement\u201d) with a single investor (the \u201cPurchaser\u201d), pursuant to which the Company agreed to issue and sell to the Purchaser, in a private placement in public equity transaction (the \u201cPrivate Placement\u201d), (i) 55,249 shares of the Company\u2019s common stock, par value $0.0001 per share (the \u201cShares\u201d), and (ii) a common stock purchase warrant (the \u201cCommon Warrant\u201d) to purchase 55,249 shares of common stock (the \u201cWarrant Shares\u201d), for an aggregate purchase price of $100,000"
@@ -21580,6 +21636,14 @@
         }
       ],
       "score": -3,
+      "financing_event": {
+        "label": "Debt financing",
+        "priority": "Medium",
+        "what_changed": "The filing describes a debt offering involving notes.",
+        "why_it_matters": "The terms can affect interest expense and repayment timing.",
+        "what_to_check": "Verify the full offering size, interest rates, maturities, closing status, and use of proceeds.",
+        "evidence": "completed a public offering (the \u201cOffering\u201d) of (i) $1,250,000,000 aggregate principal amount of 5.100% Senior Notes due 2029"
+      },
       "classification": "Potential negative"
     },
     {
