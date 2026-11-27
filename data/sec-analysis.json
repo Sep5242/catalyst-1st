@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T18:57:30.440828+00:00",
+  "generated_at": "2026-11-27T20:48:03.401237+00:00",
   "method": "Rule-based phrase screening; not AI interpretation",
   "disclaimer": "Signals require manual verification in the SEC filing.",
   "filings": [
@@ -3258,7 +3258,7 @@
       "financing_event": {
         "label": "Equity financing",
         "priority": "High",
-        "what_changed": "The filing describes a private equity placement of $215.0 million.",
+        "what_changed": "The filing describes a private equity placement of $215.0 million. Common shares outstanding after closing: 104.2 million. Placement investors held about 40.6% on a fully diluted basis. The 8-K reports 101,438,857 shares issued to existing shareholders and placement investors combined. That figure does not isolate the placement share count.",
         "why_it_matters": "The financing can add cash and increase the share count.",
         "what_to_check": "Verify the price per share, number of shares, closing status, and post-deal share count.",
         "evidence": "private placement of Avenzo Class A common stock, par value $0.0001 per share, for an aggregate purchase price of $215.0 million"
@@ -5021,6 +5021,12 @@
       ],
       "score": -4,
       "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1809519/000180951926000231/gdrxq326-exx991pressrelease.htm",
+      "earnings_readout": {
+        "reported": "Revenue increased 11% to $218.4 million compared to $196.0 million.",
+        "outlook": "Management is raising its full-year 2026 guidance as follows:.",
+        "question": "How much of the reported growth came from acquisitions, and how much came from the existing business?"
+      },
       "classification": "Potential negative"
     },
     {
@@ -12278,6 +12284,12 @@
       ],
       "score": -5,
       "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1853070/000149315226053633/ex99-1.htm",
+      "earnings_readout": {
+        "reported": "Deferred revenue and customer deposits were $45.7 million as of September 30, 2026, primarily customer prepayments that will be recognized as revenue as service is delivered.",
+        "outlook": "The Company believes this satisfies NYSE American\u2019s continued listing standards for stockholders\u2019 equity under Section 1003(a) of the NYSE American Company Guide, pending formal exchange confirmation, which the Company expects to receive in December 2026.",
+        "question": "How did operating cash flow compare with the reported result?"
+      },
       "classification": "Potential negative"
     },
     {
@@ -19920,6 +19932,7 @@
       "signals": [],
       "score": 0,
       "earnings_results": true,
+      "earnings_release_url": "https://www.sec.gov/Archives/edgar/data/1434524/000110465926130612/tm2630382d1_ex99-1.htm",
       "classification": "No rule-based signal"
     },
     {
