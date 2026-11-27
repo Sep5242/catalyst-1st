@@ -17,6 +17,12 @@ on:
         description: "Watch price in dollars (optional)"
         required: false
         type: string
+      send_test_email:
+        description: "Send a labeled test email using sample data"
+        required: false
+        default: false
+        type: boolean
+
 permissions: {}
 
 jobs:
@@ -25,6 +31,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Check the latest Alpaca IEX minute bar
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.send_test_email) }}
         env:
           WATCH_TICKER: ${{ github.event_name == 'schedule' && vars.MONITOR_TICKER || inputs.ticker }}
           WATCH_PRICE: ${{ github.event_name == 'schedule' && vars.MONITOR_WATCH_PRICE || inputs.watch_price }}
@@ -91,10 +98,12 @@ jobs:
               lower = watch_price * Decimal("0.98")
               status = "IN RANGE" if lower <= close <= watch_price else "OUTSIDE RANGE"
               print(f"Watch range: ${lower:.2f} to ${watch_price:.2f} | {status}")
+
           from collections import defaultdict
           from datetime import timedelta
           from statistics import mean
           from urllib.parse import urlencode
+
           rvol = None
           market_open = eastern.replace(hour=9, minute=30, second=0, microsecond=0)
           market_close = market_open + timedelta(hours=6, minutes=30)
@@ -146,15 +155,13 @@ jobs:
               else:
                   rvol = sum(current[slot] for slot in slots) / mean(baseline)
                   result = "MET" if rvol >= 1.30 else "BELOW"
-                  print(f"Relative volume through {cutoff:%I:%M %p %Z}: {rvol:.3f}x | 1.30x threshold: {result}")          
+                  print(f"Relative volume through {cutoff:%I:%M %p %Z}: {rvol:.3f}x | 1.30x threshold: {result}")
+
           if not watch_text or rvol is None:
               print("Setup result: NOT EVALUATED")
           elif status == "IN RANGE" and rvol >= 1.30:
               print("Setup result: SETUP MET")
-          else:
-              print("Setup result: NOT MET")
-          if os.environ["GITHUB_EVENT_NAME"] == "schedule" and watch_text and rvol is not None:
-              if status == "IN RANGE" and rvol >= 1.30 and 0 <= age <= 5:
+              if os.environ["GITHUB_EVENT_NAME"] == "schedule" and 0 <= age <= 5:
                   with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as alert:
                       alert.write(
                           f"ALERT_TICKER={ticker}\n"
@@ -162,7 +169,20 @@ jobs:
                           f"ALERT_RVOL={rvol:.3f}\n"
                           f"ALERT_BAR_TIME={eastern:%Y-%m-%d %I:%M %p %Z}\n"
                       )
+          else:
+              print("Setup result: NOT MET")
           PY
+
+      - name: Prepare sample watchlist alert
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.send_test_email }}
+        run: |
+          cat >> "$GITHUB_ENV" <<'EOF'
+          ALERT_IS_TEST=1
+          ALERT_TICKER=AAPL
+          ALERT_CLOSE=100.00
+          ALERT_RVOL=1.500
+          ALERT_BAR_TIME=Sample data
+          EOF
 
       - name: Email qualifying watchlist setup
         if: ${{ env.ALERT_TICKER != '' }}
@@ -183,12 +203,20 @@ jobs:
           if not all((sender, password, recipient)):
               raise SystemExit("One or more alert email secrets are missing.")
 
+          ticker = os.environ["ALERT_TICKER"]
+          is_test = os.environ.get("ALERT_IS_TEST") == "1"
           message = EmailMessage()
           message["From"] = sender
           message["To"] = recipient
-          message["Subject"] = f"Catalyst 1st | {os.environ['ALERT_TICKER']} | SETUP MET"
+          if is_test:
+              message["Subject"] = f"Catalyst 1st | TEST ONLY | {ticker}"
+              intro = f"Manual delivery test using synthetic data for {ticker}."
+          else:
+              message["Subject"] = f"Catalyst 1st | {ticker} | SETUP MET"
+              intro = f"Watchlist Monitor setup met for {ticker}."
+
           message.set_content(
-              f"Watchlist Monitor setup met for {os.environ['ALERT_TICKER']}.\n"
+              f"{intro}\n"
               f"IEX bar time: {os.environ['ALERT_BAR_TIME']}\n"
               f"Close: ${os.environ['ALERT_CLOSE']}\n"
               f"Relative volume: {os.environ['ALERT_RVOL']}x\n"
@@ -206,5 +234,5 @@ jobs:
           except (smtplib.SMTPException, OSError):
               raise SystemExit("Could not complete the iCloud SMTP send.") from None
 
-          print("iCloud accepted the watchlist alert for delivery.")
+          print("iCloud accepted the watchlist email for delivery.")
           PY
